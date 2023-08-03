@@ -10,22 +10,93 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Prisma schema
+
 enum Role {
-  user
-  trainer
   admin
+  trainer
+  user
 }
+
+enum Gender {
+  male
+  female
+}
+
+enum Goal {
+  gain_weight
+  lose_weight
+  get_fitter
+  gain_more_flexible
+  learn_the_basics
+}
+
+enum Level {
+  rookie
+  beginner
+  intermediate
+  advanced
+  true_beast
+}
+
+// User
 
 model User {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   email          String   @unique
   hashedPassword String
-  role           Role     @default(user)
-  gender         String
-  age            Int?
-  height         Int?
-  weight         Int?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  image          String?
+  role           Role
+  isActive       Boolean? @default(false)
+  gender         Gender
+  age            Int      @default(0)
+  height         Int      @default(0)
+  weight         Int      @default(0)
+  goal           Goal     @default(lose_weight)
+  level          Level    @default(rookie)
+
+  admin     User?   @relation("AdminToUser", fields: [adminId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  adminId   String? @map("adminId") @db.ObjectId
+  trainer   User?   @relation("TrainerToUser", fields: [trainerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  trainerId String? @map("trainerId") @db.ObjectId
+
+  adminsForUsers   User[] @relation("AdminToUser")
+  trainersForUsers User[] @relation("TrainerToUser")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DietFoodList {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  dietFoodName String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PeriodWithFoodList {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  dietFoodName     String
+  breakfast        Boolean
+  morningMeal      Boolean
+  lunch            Boolean
+  eveningSnack     Boolean
+  dinner           Boolean
+  diet             Diet     @relation(fields: [dietAssignmentId], references: [id])
+  dietAssignmentId String   @map("dietAssignmentId") @db.ObjectId
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Diet {
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  studentId          String
+  date               DateTime
+  periodWithFoodList PeriodWithFoodList[]
+  fromTime           DateTime
+  toTime             DateTime
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
 }

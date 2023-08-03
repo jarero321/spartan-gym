@@ -2,9 +2,8 @@ import bcrypt from "bcrypt";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import useUserStore from "@/hooks/useUserStore";
-import prisma from "@/app/libs/prismadb";
 import { User } from "@prisma/client";
+import prisma from "@/app/libs/prismadb";
 
 export const options: NextAuthOptions = {
   session: {
@@ -41,7 +40,6 @@ export const options: NextAuthOptions = {
         if (!isCorrectPassword) {
           throw new Error("Invalid credentials");
         }
-        useUserStore.setState({ user });
 
         user.hashedPassword = undefined as any;
 

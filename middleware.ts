@@ -11,5 +11,6 @@ export const config = {
     "/fees",
     "/exercise",
     "/diet",
+    "/user/:path*",
   ],
 };
