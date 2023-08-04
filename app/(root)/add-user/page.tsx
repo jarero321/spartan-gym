@@ -1,24 +1,24 @@
 "use client";
 
+import axios from "axios";
+import Error from "next/error";
+import toast from "react-hot-toast";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import { LoadingButton } from "@mui/lab";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
+import ImageUpload from "@/app/components/ImageUpload";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, CssBaseline, MenuItem, Select } from "@mui/material/";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Image from "next/image";
-import toast from "react-hot-toast";
-import Error from "next/error";
-import axios from "axios";
-import { convertToBase64 } from "@/utils";
 
 const defaultTheme = createTheme();
 
 export default function AddMemberPage() {
   const {
     register,
+    watch,
+    setValue,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FieldValues & { age: number; weight: number; height: number }>({
@@ -37,18 +37,17 @@ export default function AddMemberPage() {
     },
   });
 
+  const image = watch("image");
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const image = await convertToBase64(data.image[0]);
-    data.image = image as string;
     try {
       const res = await axios.post("/api/user/users", data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(res);
     } catch (err: Error | any) {
-      toast.error(err.message);
+      toast.error(err.response.data.error);
     }
   };
 
@@ -104,21 +103,7 @@ export default function AddMemberPage() {
               </Select>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="outlined" fullWidth component="label">
-                Upload File
-                <input
-                  type="file"
-                  accept="image/*"
-                  required
-                  {...register("image", { required: true })}
-                  hidden
-                />
-              </Button>
-              {errors &&
-              errors.image &&
-              typeof errors.image.message === "string"
-                ? errors?.image?.message
-                : null}
+              <ImageUpload setValue={setValue} value={image} />
             </Grid>
 
             <Grid item xs={12}>

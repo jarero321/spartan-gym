@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link"
+import Link from "next/link";
 import { useState } from "react";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -29,11 +29,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-import ListItems from "@/app/components/listItems"
-
-
-
-
+import ListItems from "@/app/components/listItems";
 
 const drawerWidth: number = 240;
 
@@ -253,7 +249,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   aria-haspopup="true"
                   aria-expanded={menuOpen ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                  <Avatar
+                    sx={{ width: 32, height: 32 }}
+                    src={data?.user?.image ? data?.user?.image : undefined}
+                    alt={data?.user?.name ? data?.user?.name : undefined}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
