@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import Error from "next/error";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Grid from "@mui/material/Grid";
 import { LoadingButton } from "@mui/lab";
@@ -15,10 +16,12 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 const defaultTheme = createTheme();
 
 export default function AddMemberPage() {
+  const router = useRouter();
   const {
     register,
     watch,
     setValue,
+    reset,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FieldValues & { age: number; weight: number; height: number }>({
@@ -46,6 +49,12 @@ export default function AddMemberPage() {
           "Content-Type": "application/json",
         },
       });
+
+      if (res.data.status === 201) {
+        toast.success("User Created Successfully");
+        reset();
+        router.push("trainers");
+      }
     } catch (err: Error | any) {
       toast.error(err.response.data.error);
     }
@@ -272,20 +281,20 @@ export default function AddMemberPage() {
                 fullWidth
                 autoFocus
                 required
-                defaultValue={"gain weight"}
+                defaultValue={"gain_weight"}
                 {...register("goal", {
                   required: true,
                 })}
                 displayEmpty
               >
-                <MenuItem value="gain weight">Gain Weight</MenuItem>
-                <MenuItem value="lose weight">Lose Weight</MenuItem>
-                <MenuItem value="get fitter">Get Fitter</MenuItem>
-                <MenuItem value="get stronger">Get Stronger</MenuItem>
-                <MenuItem value="get healthier">Get Healthier</MenuItem>
-                <MenuItem value="get more flexible">Get More Flexible</MenuItem>
-                <MenuItem value="get more muscular">Get More Muscular</MenuItem>
-                <MenuItem value="learn the basics">Learn The Basics</MenuItem>
+                <MenuItem value="gain_weight">Gain Weight</MenuItem>
+                <MenuItem value="lose_weight">Lose Weight</MenuItem>
+                <MenuItem value="get_fitter">Get Fitter</MenuItem>
+                <MenuItem value="get_stronger">Get Stronger</MenuItem>
+                <MenuItem value="get_healthier">Get Healthier</MenuItem>
+                <MenuItem value="get_more_flexible">Get More Flexible</MenuItem>
+                <MenuItem value="get_more_muscular">Get More Muscular</MenuItem>
+                <MenuItem value="learn_the_basics">Learn The Basics</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={12}>

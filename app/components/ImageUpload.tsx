@@ -1,21 +1,25 @@
+// Import necessary modules and components
 "use client";
+import { CldUploadWidget } from "next-cloudinary"; // Cloudinary upload widget for Next.js
+import Image from "next/image"; // Next.js Image component
+import React, { useCallback } from "react"; // React and useCallback hook
+import CloudUploadIcon from "@mui/icons-material/CloudUpload"; // Material-UI icon for cloud upload
+import { Box, Typography } from "@mui/material"; // Material-UI components for layout
 
-import { CldUploadWidget } from "next-cloudinary";
-import Image from "next/image";
-import React, { useCallback } from "react";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Box, Typography } from "@mui/material";
-
+// Declare global variable 'cloudinary' (for type declaration)
 declare global {
   var cloudinary: any;
 }
 
+// Props interface for ImageUpload component
 interface ImageUploadProps {
-  value: string;
-  setValue: any;
+  value: string; // Current value of the uploaded image URL
+  setValue: any; // Callback function to update the image URL in the parent component
 }
 
+// ImageUpload component
 const ImageUpload: React.FC<ImageUploadProps> = ({ value, setValue }) => {
+  // Callback function to handle image upload
   const handleUpload = useCallback(
     (result: any) => {
       setValue("image", result.info.secure_url, {
@@ -27,16 +31,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, setValue }) => {
     [setValue]
   );
 
+  // Render the Cloudinary upload widget with options
   return (
     <CldUploadWidget
-      onUpload={handleUpload}
-      uploadPreset={"gym_management_system"}
+      onUpload={handleUpload} // Callback function to handle image upload
+      uploadPreset={"gym_management_system"} // Cloudinary upload preset to be used
       options={{
-        maxFiles: 1,
+        maxFiles: 1, // Maximum number of files allowed to be uploaded (1 in this case)
       }}
     >
       {({ open }) => {
         return (
+          // Div container for the image upload area
           <div
             style={{
               position: "relative",
@@ -52,11 +58,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, setValue }) => {
               alignItems: "center",
               gap: 4,
               color: "rgba(82, 82, 82, 1)",
+              userSelect: open ? "all" : "none", // Allow text selection when the upload widget is open
             }}
-            onClick={() => open?.()}
+            onClick={() => open && open?.()} // Trigger the Cloudinary widget when clicked
           >
+            {/* Cloud upload icon */}
             <CloudUploadIcon />
+            {/* Text to prompt user to click and upload */}
             <Typography variant="body1">Click to upload</Typography>
+            {/* Render the uploaded image */}
             {value && (
               <Box
                 component="div"

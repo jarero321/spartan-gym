@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth/next";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { options } from "../../auth/[...nextauth]/options";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
@@ -22,7 +22,6 @@ export async function GET(request: NextApiRequest) {
   const sessionUser = session?.user as SessionUser;
 
   if (!sessionUser?.email) {
-    // If there's no active session or user email, return a response indicating unauthenticated access
     return NextResponse.json(
       {
         error: "Not authenticated",
@@ -40,15 +39,23 @@ export async function GET(request: NextApiRequest) {
     );
   }
 
-  const page = request?.query?.page || 1;
-  const limit = request?.query?.limit || 10;
+  const url = request.url ? new URL(request.url) : null;
 
-  const parsedPage =
-    typeof page === "string" ? parseInt(page, 10) : (page as unknown as number);
-  const parsedLimit =
-    typeof limit === "string"
-      ? parseInt(limit, 10)
-      : (limit as unknown as number);
+  if (!url) {
+    // Handle the case where request.url is not available (e.g., when running on the server)
+    return NextResponse.json(
+      {
+        error: "Request URL is not available",
+      },
+      { status: 500 }
+    );
+  }
+  // Parse the "page" and "limit" parameters
+  const page = url.searchParams.get("page") || "1"; // Get the "page" parameter or set default to "1"
+  const limit = url.searchParams.get("limit") || "10"; // Get the "limit" parameter or set default to "10"
+
+  const parsedPage = Math.max(parseInt(page, 10), 1);
+  const parsedLimit = parseInt(limit, 10);
 
   const users = await prisma.user.findMany({
     skip: (parsedPage - 1) * parsedLimit,
@@ -71,11 +78,12 @@ export async function GET(request: NextApiRequest) {
 
   const pages = Math.ceil(count / parsedLimit);
 
+  // Adjust the pagination object based on the total number of pages
   const pagination = {
     page: parsedPage,
     limit: parsedLimit,
-    next: parsedPage + 1,
-    previous: parsedPage - 1,
+    next: Math.min(parsedPage + 1, pages),
+    previous: Math.max(parsedPage - 1, 1),
     first: 1,
     last: pages,
   };

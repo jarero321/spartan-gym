@@ -27,16 +27,19 @@ enum Goal {
   gain_weight
   lose_weight
   get_fitter
-  gain_more_flexible
+  get_stronger
+  get_healthier
+  get_more_flexible
+  get_more_muscular
   learn_the_basics
 }
 
 enum Level {
-  rookie
   beginner
   intermediate
   advanced
-  true_beast
+  expert
+  professional
 }
 
 // User
@@ -54,7 +57,7 @@ model User {
   height         Int      @default(0)
   weight         Int      @default(0)
   goal           Goal     @default(lose_weight)
-  level          Level    @default(rookie)
+  level          Level    @default(beginner)
 
   admin     User?   @relation("AdminToUser", fields: [adminId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   adminId   String? @map("adminId") @db.ObjectId
@@ -99,4 +102,33 @@ model Diet {
   toTime             DateTime
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
+}
+
+enum Month {
+  January
+  February
+  March
+  April
+  May
+  June
+  July
+  August
+  September
+  October
+  November
+  December
+}
+
+model Fees {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  email         String
+  month         Month
+  year          String
+  message       String
+  amount        Int
+  isPaid        Boolean   @default(false)
+  transactionId String?
+  paymentDate   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
