@@ -28,18 +28,18 @@ export default function ListItems() {
   return (
     <>
       <Link href="/" passHref>
-        <ListItemButton>
+        <ListItemButton title="Dashboard">
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItemButton>
       </Link>
-      
+
       {(user?.role === "admin" || user?.role === "trainer") && (
         <>
           <Link href="/add-user" passHref>
-            <ListItemButton>
+            <ListItemButton title="Add User">
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
@@ -47,7 +47,7 @@ export default function ListItems() {
             </ListItemButton>
           </Link>
           <Link href="/approve-user" passHref>
-            <ListItemButton>
+            <ListItemButton title="Approve User">
               <ListItemIcon>
                 <HowToRegIcon />
               </ListItemIcon>
@@ -58,7 +58,7 @@ export default function ListItems() {
       )}
 
       <Link href="/trainers" passHref>
-        <ListItemButton>
+        <ListItemButton title="Trainers">
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
@@ -67,16 +67,16 @@ export default function ListItems() {
       </Link>
       {(user?.role === "admin" || user?.role === "trainer") && (
         <>
-          <Link href="/customers" passHref>
-            <ListItemButton>
+          <Link href="/students" passHref>
+            <ListItemButton title="Students">
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Customers" />
+              <ListItemText primary="Students" />
             </ListItemButton>
           </Link>
           <Link href="/attendance" passHref>
-            <ListItemButton>
+            <ListItemButton title="Attendance">
               <ListItemIcon>
                 <CalendarMonthIcon />
               </ListItemIcon>
@@ -84,7 +84,7 @@ export default function ListItems() {
             </ListItemButton>
           </Link>
           <Link href="/schedule" passHref>
-            <ListItemButton>
+            <ListItemButton title="Schedule">
               <ListItemIcon>
                 <EventNoteIcon />
               </ListItemIcon>
@@ -136,7 +136,7 @@ export default function ListItems() {
       {(user?.role === "admin" || user?.role === "trainer") && (
         <>
           <Link href="/fees" passHref>
-            <ListItemButton>
+            <ListItemButton title="Fees">
               <ListItemIcon>
                 <MonetizationOnIcon />
               </ListItemIcon>
@@ -145,7 +145,7 @@ export default function ListItems() {
           </Link>
 
           <Link href="/exercise" passHref>
-            <ListItemButton>
+            <ListItemButton title="Exercise">
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
@@ -154,7 +154,7 @@ export default function ListItems() {
           </Link>
 
           <Link href="/diet" passHref>
-            <ListItemButton>
+            <ListItemButton title="Diet">
               <ListItemIcon>
                 <NoMealsIcon />
               </ListItemIcon>
@@ -166,7 +166,7 @@ export default function ListItems() {
       {user?.role === "user" && (
         <>
           <Link href="/user/attendance" passHref>
-            <ListItemButton>
+            <ListItemButton title="My Attendance">
               <ListItemIcon>
                 <CalendarMonthIcon />
               </ListItemIcon>
@@ -174,7 +174,7 @@ export default function ListItems() {
             </ListItemButton>
           </Link>
           <Link href="/user/fees" passHref>
-            <ListItemButton>
+            <ListItemButton title="My Fees">
               <ListItemIcon>
                 <MonetizationOnIcon />
               </ListItemIcon>
@@ -182,7 +182,7 @@ export default function ListItems() {
             </ListItemButton>
           </Link>
           <Link href="/user/exercise" passHref>
-            <ListItemButton>
+            <ListItemButton title="My Exercise">
               <ListItemIcon>
                 <FitnessCenterIcon />
               </ListItemIcon>
@@ -190,7 +190,7 @@ export default function ListItems() {
             </ListItemButton>
           </Link>
           <Link href="/user/diet" passHref>
-            <ListItemButton>
+            <ListItemButton title="My Diet Sheet">
               <ListItemIcon>
                 <NoMealsIcon />
               </ListItemIcon>

@@ -19,6 +19,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { PuffLoader } from "react-spinners";
 
 const defaultTheme = createTheme();
 
@@ -71,16 +72,16 @@ export default function FeesPage() {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-
-    return;
     try {
       const res = await axios.post("/api/fees", data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(res);
+
+      if (res.data.status === 200) {
+        toast.success(res.data.message);
+      }
     } catch (err: Error | any) {
       toast.error(err.response.data.error);
     }
@@ -173,7 +174,7 @@ export default function FeesPage() {
                   newValue && setSelectedYear(newValue)
                 }
                 options={YEAR_OBJECTS || []}
-                getOptionLabel={(year) => year.name}
+                getOptionLabel={(year) => year.name.toString()}
                 renderOption={(props, year) => (
                   <li {...props} key={year.id}>
                     {year.name}
@@ -207,6 +208,7 @@ export default function FeesPage() {
             {/* amount */}
             <Grid item xs={12} sm={6}>
               <TextField
+                type="number"
                 label="Amount"
                 placeholder="Enter the amount"
                 defaultValue={0}
@@ -217,19 +219,9 @@ export default function FeesPage() {
                   valueAsNumber: true,
                   validate: {
                     positive: (value) =>
-                      value > 0 || "Amount must be positive or Greater than 0",
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/i,
-                    message: "Amount must be a number",
+                      value > 0 || "Amount must be positive or greater than 0",
                   },
                 })}
-                error={!!errors?.amount?.message}
-                helperText={
-                  errors.amount && typeof errors.amount.message === "string"
-                    ? errors.amount.message
-                    : null
-                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -255,8 +247,8 @@ export default function FeesPage() {
               <LoadingButton
                 type="submit"
                 fullWidth
-                // loading={isSubmitting}
-                // loadingIndicator="Adding Fee"
+                loading={isSubmitting}
+                loadingIndicator={<PuffLoader size={20} color={"blue"} />}
                 variant="contained"
               >
                 Add Fee
