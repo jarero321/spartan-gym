@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import axios from "axios";
 import { create } from "zustand";
 import { User } from "@prisma/client";
@@ -8,12 +7,6 @@ interface StudentsStore {
   loading: boolean;
   fetchStudents: () => void;
 }
-
-const fetcher = async (...args: Parameters<typeof axios>) => {
-  const res = await axios(...args);
-  return res.data;
-};
-
 const useStudentsStore = create<StudentsStore>((set) => ({
   students: [],
   loading: false,

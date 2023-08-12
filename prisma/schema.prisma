@@ -132,3 +132,34 @@ model Fees {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
+
+// exercise 
+
+model ExerciseList {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Exercise {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  studentId String
+  date      DateTime
+  exercises WorkOut[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model WorkOut {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  exerciseName         String
+  sets                 Int
+  steps                Int
+  kg                   Int
+  rest                 Int
+  exercise             Exercise @relation(fields: [exerciseAssignmentId], references: [id])
+  exerciseAssignmentId String   @db.ObjectId
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

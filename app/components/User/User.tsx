@@ -38,6 +38,7 @@ export default function UserClient({ user }: { user: User }) {
               alt={user.name}
               width={400}
               height={300}
+              loading="lazy"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
