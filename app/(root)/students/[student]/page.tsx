@@ -1,7 +1,8 @@
+"use client";
+
 import { useParams } from "next/navigation";
 
-export default function Student() {
+export default function StudentPage() {
   const params = useParams();
-  console.log(params);
-  return <>Student</>;
+  return <>Student id: {params?.student}</>;
 }

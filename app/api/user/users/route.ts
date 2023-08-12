@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth/next";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { options } from "../../auth/[...nextauth]/options";
 import { SessionUser } from "@/types";

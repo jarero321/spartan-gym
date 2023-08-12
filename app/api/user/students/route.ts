@@ -1,21 +1,13 @@
-import { NextApiRequest } from "next";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import { options } from "../../auth/[...nextauth]/options";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
 
-export async function getSession() {
-  try {
-    return await getServerSession(options);
-  } catch (error) {
-    console.error("Error while fetching session:", error);
-    return null;
-  }
-}
+export async function GET() {
+  const session = await getServerSession(options);
 
-export async function GET(request: NextApiRequest) {
-  const session = await getSession();
+  console.log(session);
 
   const sessionUser = session?.user as SessionUser;
 
