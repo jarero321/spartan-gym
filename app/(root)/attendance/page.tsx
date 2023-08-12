@@ -28,7 +28,7 @@ export default function AttendancePage() {
   const [orderBy, setOrderBy] = useState<keyof User>("name"); // Field to sort by (default is "name")
   const [order, setOrder] = useState<"asc" | "desc">("asc"); // Sorting order (default is "asc")
   const { data, isLoading, mutate } = useSWR(
-    `/api/user/users?page=${currentPage}&limit=${rowsPerPage}`, // Include the limit in the API endpoint for fetching user data with pagination
+    `/api/users?page=${currentPage}&limit=${rowsPerPage}`, // Include the limit in the API endpoint for fetching user data with pagination
     fetcher, // The custom fetcher function using Axios
     
   );
@@ -82,7 +82,7 @@ export default function AttendancePage() {
 
   // Manually trigger data re-fetch whenever page or rowsPerPage changes
   useEffect(() => {
-    mutate(`/api/user/users?page=${currentPage}&limit=${rowsPerPage}`);
+    mutate(`/api/users?page=${currentPage}&limit=${rowsPerPage}`);
   }, [currentPage, rowsPerPage, mutate]);
 
   // Render loading spinner while data is being fetched

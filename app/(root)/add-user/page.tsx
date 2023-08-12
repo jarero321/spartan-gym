@@ -44,7 +44,7 @@ export default function AddMemberPage() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const res = await axios.post("/api/user/users", data, {
+      const res = await axios.post("/api/users", data, {
         headers: {
           "Content-Type": "application/json",
         },

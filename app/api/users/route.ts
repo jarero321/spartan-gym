@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth/next";
 import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
-import { options } from "../../auth/[...nextauth]/options";
+import { options } from "../auth/[...nextauth]/options";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
 
