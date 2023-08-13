@@ -26,6 +26,7 @@ import { useEffect, useMemo, useState } from "react";
 import useExerciseStore from "@/app/hooks/useExerciseStore";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Empty from "@/app/components/Empty";
+import { useRouter } from "next/navigation";
 
 const defaultTheme = createTheme();
 
@@ -36,6 +37,9 @@ export default function ManageExercisePage() {
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [orderBy, setOrderBy] = useState<keyof ExerciseList>("name");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
+
+  const router = useRouter();
+
   const {
     register,
     reset,
@@ -100,6 +104,9 @@ export default function ManageExercisePage() {
   };
 
   const deleteExercise = async (id: string) => {
+    if (!id) {
+      return;
+    }
     setDeleteLoading(true);
     setDeletingId(id);
 
@@ -194,7 +201,13 @@ export default function ManageExercisePage() {
                       Name
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell>Action</TableCell>
+                  <TableCell
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    Action
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -208,6 +221,7 @@ export default function ManageExercisePage() {
                         loading={deleteLoading && deletingId === exercise.id}
                         loadingIndicator={<PuffLoader size={20} color="blue" />}
                         variant="contained"
+                        color="error"
                         fullWidth
                         onClick={() => deleteExercise(exercise.id)}
                       >

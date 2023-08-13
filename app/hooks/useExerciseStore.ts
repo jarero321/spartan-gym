@@ -11,23 +11,22 @@ interface ExercisesStore {
 
 const useExerciseStore = create<ExercisesStore>((set) => ({
   exercises: [],
-  loading: false,
+  loading: true,
   fetchExercises: async () => {
-    set({ loading: true });
-
     try {
       const { data } = await axios.get<{ data: ExerciseList[] }>(
         "/api/exercise/manage-exercise"
       );
-      set({ exercises: data.data, loading: false });
+      set({ exercises: data.data});
     } catch (error) {
       console.log(error);
-      set({ loading: false });
+    } finally {
+      set({loading: false})
     }
   },
   refetch: async () => {
-    set({loading: true})
-    useExerciseStore.getState().fetchExercises();
+    set({ loading: false });
+    await useExerciseStore.getState().fetchExercises();
   },
 }));
 
