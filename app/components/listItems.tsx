@@ -83,14 +83,6 @@ export default function ListItems() {
               <ListItemText primary="Attendance" />
             </ListItemButton>
           </Link>
-          <Link href="/schedule" passHref>
-            <ListItemButton title="Schedule">
-              <ListItemIcon>
-                <EventNoteIcon />
-              </ListItemIcon>
-              <ListItemText primary="Schedule" />
-            </ListItemButton>
-          </Link>
         </>
       )}
       <Divider sx={{ my: 1 }} />

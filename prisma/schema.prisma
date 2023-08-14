@@ -144,8 +144,9 @@ model ExerciseList {
 
 model Exercise {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  studentId String
-  date      DateTime
+  studentId String    @map("studentId") @db.ObjectId
+  fromDate  DateTime
+  toDate    DateTime
   exercises WorkOut[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -153,6 +154,7 @@ model Exercise {
 
 model WorkOut {
   id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  exerciseId           String
   exerciseName         String
   sets                 Int
   steps                Int
