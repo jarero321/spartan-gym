@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { styled } from "@mui/system";
+import withAuth from "@/app/hooks/withAuth";
 
 const defaultTheme = createTheme();
 
@@ -85,4 +86,4 @@ const DietPage: React.FC = () => {
   );
 };
 
-export default DietPage;
+export default withAuth({Component: DietPage})

@@ -28,10 +28,12 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Empty from "@/app/components/Empty";
 import { DietFoodList } from "@prisma/client";
 import useFoodStore from "@/app/hooks/useFoodStore";
+import withAuth from "@/app/hooks/withAuth";
 
 const defaultTheme = createTheme();
 
-export default function ManageFoodPage() {
+const ManageFoodPage: React.FC = () =>
+{
   const { foods, loading, fetchFoods, refetch } = useFoodStore();
 
   const [deletingId, setDeletingId] = useState<string>("");
@@ -239,3 +241,5 @@ export default function ManageFoodPage() {
     </ThemeProvider>
   );
 }
+
+export default withAuth({Component: ManageFoodPage })

@@ -13,8 +13,9 @@ import { User } from "@prisma/client";
 import useStudentsStore from "@/app/hooks/useStudentsStore";
 import Loading from "@/app/loading";
 import Link from "next/link";
+import withAuth from "@/app/hooks/withAuth";
 
-export default function StudentPage() {
+const StudentsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // 0-based indexing
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState<keyof User>("name");
@@ -137,3 +138,5 @@ export default function StudentPage() {
     </>
   );
 }
+
+export default withAuth({Component: StudentsPage})

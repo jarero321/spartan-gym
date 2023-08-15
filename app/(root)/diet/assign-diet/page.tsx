@@ -40,6 +40,7 @@ import axios from "axios";
 import Loader from "@/app/components/Loader/Loader";
 import useDietStore from "@/app/hooks/useDietStore";
 import { DietFood } from "@/types";
+import withAuth from "@/app/hooks/withAuth";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -54,7 +55,7 @@ const MenuProps = {
 
 const defaultTheme = createTheme();
 
-export default function AssignDiet() {
+const AssignDiet: React.FC = () => {
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [assignLoading, setAssignLoading] = useState<boolean>(false);
   const [fromDate, setFromDate] = useState<string>(new Date().toISOString());
@@ -390,3 +391,7 @@ export default function AssignDiet() {
     </ThemeProvider>
   );
 }
+
+
+
+export default withAuth({Component: AssignDiet})

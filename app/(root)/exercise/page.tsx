@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { styled } from "@mui/system";
+import withAuth from "@/app/hooks/withAuth";
 
 const defaultTheme = createTheme();
 
@@ -90,4 +91,4 @@ const ExercisePage: React.FC = () => {
   );
 };
 
-export default ExercisePage;
+export default withAuth({Component: ExercisePage})

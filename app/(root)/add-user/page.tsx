@@ -14,10 +14,11 @@ import { Box, CssBaseline, MenuItem, Select } from "@mui/material/";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { SessionUser } from "@/types";
+import withAuth from "@/app/hooks/withAuth";
 
 const defaultTheme = createTheme();
 
-export default function AddMemberPage() {
+const AddMemberPage: React.FC =() => {
   const { data } = useSession();
   const sessionUser = data?.user as SessionUser;
   const router = useRouter();
@@ -335,3 +336,5 @@ export default function AddMemberPage() {
     </ThemeProvider>
   );
 }
+
+export default withAuth({Component: AddMemberPage})

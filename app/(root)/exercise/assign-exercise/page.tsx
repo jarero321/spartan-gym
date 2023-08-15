@@ -39,6 +39,7 @@ import { LoadingButton } from "@mui/lab";
 import { PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import axios from "axios";
+import withAuth from "@/app/hooks/withAuth";
 
 const defaultTheme = createTheme();
 
@@ -53,7 +54,7 @@ const MenuProps = {
   },
 };
 
-export default function AssignExercisePage() {
+const AssignExercisePage: React.FC = () => {
   const { students, loading, fetchStudents } = useStudentsStore();
   const {
     exercises,
@@ -402,3 +403,5 @@ export default function AssignExercisePage() {
     </ThemeProvider>
   );
 }
+
+export default withAuth({Component: AssignExercisePage})

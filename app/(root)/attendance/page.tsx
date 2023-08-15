@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,6 +13,7 @@ import axios from "axios";
 import { User } from "@prisma/client";
 import useSWR from "swr";
 import Loading from "@/app/loading";
+import withAuth from "@/app/hooks/withAuth";
 
 // Custom data fetching function using SWR and Axios
 const fetcher = async (...args: Parameters<typeof axios>) => {
@@ -21,7 +22,7 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
 };
 
 // Main component for displaying user attendance
-export default function AttendancePage() {
+const AttendancePage: React.FC =() => {
   // State and data fetching using useSWR
   const [currentPage, setCurrentPage] = useState<number>(1); // Current page number (initialize to 1)
   const [rowsPerPage, setRowsPerPage] = useState<number>(10); // Number of rows per page
@@ -180,3 +181,5 @@ export default function AttendancePage() {
     </>
   );
 }
+
+export default withAuth({Component: AttendancePage})

@@ -1,6 +1,7 @@
 "use client";
 
 import useStudentsStore from "@/app/hooks/useStudentsStore";
+import withAuth from "@/app/hooks/withAuth";
 import Loading from "@/app/loading";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -44,7 +45,7 @@ const YEAR_OBJECTS = YEARS.map((year, index) => ({
   name: year,
 }));
 
-export default function FeesPage() {
+const FeesPage: React.FC = () => {
   const { students, fetchStudents } = useStudentsStore();
 
   // State variables for storing selected values
@@ -260,3 +261,5 @@ export default function FeesPage() {
     </ThemeProvider>
   );
 }
+
+export default withAuth({Component: FeesPage})
