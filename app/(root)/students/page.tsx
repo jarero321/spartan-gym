@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { TablePagination } from "@mui/material";
+import { TablePagination, Typography } from "@mui/material";
 import { User } from "@prisma/client";
 import useStudentsStore from "@/app/hooks/useStudentsStore";
 import Loading from "@/app/loading";
@@ -73,6 +73,9 @@ export default function StudentPage() {
 
   return (
     <>
+    <Typography variant="h2">
+      Students
+    </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

@@ -145,6 +145,14 @@ export async function POST(req: Request) {
     );
   }
 
+  if (sessionUser.role === body.role) {
+    return NextResponse.json({
+      error : `You can't add an ${body.role}`
+    },{
+      status: 503
+    })
+  }
+
   const hashedPassword = await bcrypt.hash(body.password, 12);
 
   const adminAccount = await prisma.user.findFirst({

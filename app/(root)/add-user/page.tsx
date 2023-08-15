@@ -12,10 +12,14 @@ import ImageUpload from "@/app/components/ImageUpload";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box, CssBaseline, MenuItem, Select } from "@mui/material/";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { SessionUser } from "@/types";
 
 const defaultTheme = createTheme();
 
 export default function AddMemberPage() {
+  const { data } = useSession();
+  const sessionUser = data?.user as SessionUser;
   const router = useRouter();
   const {
     register,
@@ -107,7 +111,7 @@ export default function AddMemberPage() {
                 })}
                 displayEmpty
               >
-                <MenuItem value="trainer">Trainer</MenuItem>
+                {sessionUser?.role === "admin" && <MenuItem value="trainer">Trainer</MenuItem>}
                 <MenuItem value="user">Student</MenuItem>
               </Select>
             </Grid>
