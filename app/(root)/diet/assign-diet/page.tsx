@@ -120,7 +120,9 @@ export default function AssignDiet() {
         }
       );
 
-      console.log(res);
+      if (res.status === 200) {
+        toast.success(res.data.message);
+      }
     } catch (err: Error | any) {
       console.log(err);
       toast.error(err.response.data.error);
