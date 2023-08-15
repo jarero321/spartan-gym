@@ -13,7 +13,7 @@ import axios from "axios";
 import { User } from "@prisma/client";
 import useSWR from "swr";
 import Loading from "@/app/loading";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 
 // Custom data fetching function using SWR and Axios
 const fetcher = async (...args: Parameters<typeof axios>) => {
@@ -22,7 +22,7 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
 };
 
 // Main component for displaying user attendance
-const AttendancePage: React.FC =() => {
+const AttendancePage: React.FC = () => {
   // State and data fetching using useSWR
   const [currentPage, setCurrentPage] = useState<number>(1); // Current page number (initialize to 1)
   const [rowsPerPage, setRowsPerPage] = useState<number>(10); // Number of rows per page
@@ -30,8 +30,7 @@ const AttendancePage: React.FC =() => {
   const [order, setOrder] = useState<"asc" | "desc">("asc"); // Sorting order (default is "asc")
   const { data, isLoading, mutate } = useSWR(
     `/api/users?page=${currentPage}&limit=${rowsPerPage}`, // Include the limit in the API endpoint for fetching user data with pagination
-    fetcher, // The custom fetcher function using Axios
-    
+    fetcher // The custom fetcher function using Axios
   );
 
   const handlePageChange = (newPage: number) => {
@@ -180,6 +179,6 @@ const AttendancePage: React.FC =() => {
       />
     </>
   );
-}
+};
 
-export default withAuth({Component: AttendancePage})
+export default withAuth({ Component: AttendancePage });

@@ -1,7 +1,7 @@
 "use client";
 
 import useStudentsStore from "@/app/hooks/useStudentsStore";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 import Loading from "@/app/loading";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -260,6 +260,6 @@ const FeesPage: React.FC = () => {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-export default withAuth({Component: FeesPage})
+export default withAuth({ Component: FeesPage });

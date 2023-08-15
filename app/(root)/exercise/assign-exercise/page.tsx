@@ -39,7 +39,7 @@ import { LoadingButton } from "@mui/lab";
 import { PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import axios from "axios";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 
 const defaultTheme = createTheme();
 
@@ -94,7 +94,6 @@ const AssignExercisePage: React.FC = () => {
   };
 
   const assignExercise = async () => {
-
     setAssignLoading(true);
 
     if (selectedStudents.length === 0) {
@@ -116,7 +115,6 @@ const AssignExercisePage: React.FC = () => {
       toast.error("Please select to date");
       return;
     }
-
 
     try {
       const res = await axios.post(
@@ -402,6 +400,6 @@ const AssignExercisePage: React.FC = () => {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-export default withAuth({Component: AssignExercisePage})
+export default withAuth({ Component: AssignExercisePage });

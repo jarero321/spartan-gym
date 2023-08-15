@@ -27,11 +27,11 @@ import useExerciseStore from "@/app/hooks/useExerciseStore";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Empty from "@/app/components/Empty";
 import { useRouter } from "next/navigation";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 
 const defaultTheme = createTheme();
 
-const ManageExercisePage : React.FC = () => {
+const ManageExercisePage: React.FC = () => {
   const { exercises, loading, fetchExercises, refetch } = useExerciseStore();
 
   const [deletingId, setDeletingId] = useState<string>("");
@@ -240,7 +240,6 @@ const ManageExercisePage : React.FC = () => {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-
-export default withAuth({Component : ManageExercisePage})
+export default withAuth({ Component: ManageExercisePage });

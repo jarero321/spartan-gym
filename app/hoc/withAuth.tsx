@@ -1,3 +1,4 @@
+"use client";
 import { useSession } from "next-auth/react";
 import Empty from "@/app/components/Empty";
 import Loader from "@/app/components/Loader/Loader";
@@ -17,17 +18,15 @@ export default function withAuth<P extends {}>({
     const router = useRouter();
     const { data, status } = useSession();
 
-
     const sessionUser = data?.user as SessionUser;
 
-    
     useEffect(() => {
-        setHasMounted(true);
-      }, []);
-  
-      if (!hasMounted) {
-        return null;
-      }
+      setHasMounted(true);
+    }, []);
+
+    if (!hasMounted) {
+      return null;
+    }
 
     if (status === "loading") {
       return <Loader />;
@@ -43,7 +42,12 @@ export default function withAuth<P extends {}>({
 
     if (!isAdminOrTrainer) {
       router.push("/unauthorized");
-      return <Empty title="Unauthorized" subtitle="You ain't authorized for this page." />;
+      return (
+        <Empty
+          title="Unauthorized"
+          subtitle="You ain't authorized for this page."
+        />
+      );
     }
 
     // Render the Component with the provided props

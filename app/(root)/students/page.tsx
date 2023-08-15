@@ -13,7 +13,7 @@ import { User } from "@prisma/client";
 import useStudentsStore from "@/app/hooks/useStudentsStore";
 import Loading from "@/app/loading";
 import Link from "next/link";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 
 const StudentsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // 0-based indexing
@@ -74,9 +74,7 @@ const StudentsPage: React.FC = () => {
 
   return (
     <>
-    <Typography variant="h2">
-      Students
-    </Typography>
+      <Typography variant="h2">Students</Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -137,6 +135,6 @@ const StudentsPage: React.FC = () => {
       />
     </>
   );
-}
+};
 
-export default withAuth({Component: StudentsPage})
+export default withAuth({ Component: StudentsPage });

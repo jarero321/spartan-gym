@@ -2,9 +2,11 @@ import ClientOnly from "@/app/components/ClientOnly/page";
 import Empty from "@/app/components/Empty";
 import getUser from "@/app/actions/getUser";
 import UserClient from "@/app/components/User/User";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 
-const StudentPage: React.FC<{ params: { student: string }}> = async ({params}) => {
+const StudentPage: React.FC<{ params: { student: string } }> = async ({
+  params,
+}) => {
   if (!params?.student) {
     return (
       <ClientOnly>
@@ -31,6 +33,6 @@ const StudentPage: React.FC<{ params: { student: string }}> = async ({params}) =
       <UserClient user={student} />
     </ClientOnly>
   );
-}
+};
 
-export default withAuth({Component: StudentPage})
+export default withAuth({ Component: StudentPage });

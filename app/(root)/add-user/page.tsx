@@ -14,11 +14,11 @@ import { Box, CssBaseline, MenuItem, Select } from "@mui/material/";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { SessionUser } from "@/types";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 
 const defaultTheme = createTheme();
 
-const AddMemberPage: React.FC =() => {
+const AddMemberPage: React.FC = () => {
   const { data } = useSession();
   const sessionUser = data?.user as SessionUser;
   const router = useRouter();
@@ -112,7 +112,9 @@ const AddMemberPage: React.FC =() => {
                 })}
                 displayEmpty
               >
-                {sessionUser?.role === "admin" && <MenuItem value="trainer">Trainer</MenuItem>}
+                {sessionUser?.role === "admin" && (
+                  <MenuItem value="trainer">Trainer</MenuItem>
+                )}
                 <MenuItem value="user">Student</MenuItem>
               </Select>
             </Grid>
@@ -335,6 +337,6 @@ const AddMemberPage: React.FC =() => {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-export default withAuth({Component: AddMemberPage})
+export default withAuth({ Component: AddMemberPage });

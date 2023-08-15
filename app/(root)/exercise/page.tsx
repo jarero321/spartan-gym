@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Box,
   Container,
@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { styled } from "@mui/system";
-import withAuth from "@/app/hooks/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 
 const defaultTheme = createTheme();
 
@@ -65,12 +65,12 @@ const ExercisePage: React.FC = () => {
             mt: 5,
             display: "flex",
             flexDirection: {
-              xs:"column",
-              sm: "row"
+              xs: "column",
+              sm: "row",
             },
-            justifyContent:"center",
+            justifyContent: "center",
             alignItems: "center",
-            gap: "4px"
+            gap: "4px",
           }}
         >
           <StyledNextLink
@@ -91,4 +91,4 @@ const ExercisePage: React.FC = () => {
   );
 };
 
-export default withAuth({Component: ExercisePage})
+export default withAuth({ Component: ExercisePage });
