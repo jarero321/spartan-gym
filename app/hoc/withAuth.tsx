@@ -17,7 +17,6 @@ export default function withAuth<P extends {}>({
     const [hasMounted, setHasMounted] = useState<boolean>(false);
     const router = useRouter();
     const { data, status } = useSession();
-
     const sessionUser = data?.user as SessionUser;
 
     useEffect(() => {
