@@ -1,7 +1,7 @@
 "use client";
 
 import useStudentsStore from "@/app/hooks/useStudentsStore";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 import Loading from "@/app/loading";
 import { LoadingButton } from "@mui/lab";
 import {

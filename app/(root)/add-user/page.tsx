@@ -14,7 +14,7 @@ import { Box, CssBaseline, MenuItem, Select } from "@mui/material/";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { SessionUser } from "@/types";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const defaultTheme = createTheme();
 

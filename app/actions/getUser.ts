@@ -1,4 +1,5 @@
 import prisma from "@/app/libs/prismadb";
+export const dynamic = "force-dynamic";
 
 interface IParams {
   userId?: string;
@@ -26,13 +27,13 @@ export default async function getUser(params: IParams) {
           },
         },
         trainer: {
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                image: true,
-            }
-        }
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
       },
     });
 

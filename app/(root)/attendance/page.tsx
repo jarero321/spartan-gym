@@ -13,7 +13,7 @@ import axios from "axios";
 import { User } from "@prisma/client";
 import useSWR from "swr";
 import Loading from "@/app/loading";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 // Custom data fetching function using SWR and Axios
 const fetcher = async (...args: Parameters<typeof axios>) => {

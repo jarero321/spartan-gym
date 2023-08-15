@@ -28,7 +28,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Empty from "@/app/components/Empty";
 import { DietFoodList } from "@prisma/client";
 import useFoodStore from "@/app/hooks/useFoodStore";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const defaultTheme = createTheme();
 

@@ -8,7 +8,7 @@ interface TrainersStore {
   fetchTrainers: () => void;
 }
 const useTrainersStore = create<TrainersStore>((set) => ({
-    trainers: [],
+  trainers: [],
   loading: false,
   fetchTrainers: async () => {
     set({ loading: true });

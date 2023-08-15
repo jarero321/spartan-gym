@@ -1,32 +1,21 @@
 import { useSession } from "next-auth/react";
 import Empty from "@/app/components/Empty";
-import Loader from "@/app/components/Loader/Loader";
 import { SessionUser } from "@/types";
-import { useRouter } from "next/navigation";
 import React from "react";
+import Loading from "../loading";
 
 interface WithUserProps<P> {
   Component: React.ComponentType<P>;
 }
 
-const WithUser = <P extends {}>({
-  Component,
-}: WithUserProps<P>) => {
+const WithUser = <P extends {}>({ Component }: WithUserProps<P>) => {
   const UserComponent: React.FC<P> = (props) => {
-    const router = useRouter();
     const { data, status } = useSession();
     const sessionUser = data?.user as SessionUser;
 
     if (status === "loading") {
-      return <Loader />;
+      return <Loading />;
     }
-
-    if (!data?.user) {
-      router.push("/signin");
-      return null;
-    }
-
-  
 
     if (sessionUser.role !== "user") {
       return (
@@ -42,4 +31,4 @@ const WithUser = <P extends {}>({
   return UserComponent;
 };
 
-export default WithUser
+export default WithUser;

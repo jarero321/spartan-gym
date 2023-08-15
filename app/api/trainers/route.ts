@@ -3,8 +3,10 @@ import { SessionUser } from "@/types";
 import { getSession } from "../users/route";
 import prisma from "@/app/libs/prismadb";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
-  const session = await getSession()
+  const session = await getSession();
 
   const sessionUser = session?.user as SessionUser;
 
@@ -16,7 +18,6 @@ export async function GET() {
       { status: 401 }
     );
   }
-
 
   const users = await prisma.user.findMany({
     where: {
@@ -33,6 +34,13 @@ export async function GET() {
       updatedAt: true,
     },
   });
+
+  if (!users || users.length === 0) {
+    return NextResponse.json({
+      status: 200,
+      data: [],
+    });
+  }
 
   return NextResponse.json({
     status: 200,

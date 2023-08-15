@@ -27,7 +27,7 @@ import useExerciseStore from "@/app/hooks/useExerciseStore";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Empty from "@/app/components/Empty";
 import { useRouter } from "next/navigation";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const defaultTheme = createTheme();
 

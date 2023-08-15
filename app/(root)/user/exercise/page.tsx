@@ -1,6 +1,6 @@
 "use client";
 
-import WithUser from "@/app/hoc/withUser";
+import WithUser from "@/app/components/withUser";
 import { Box, Typography } from "@mui/material";
 
 const MyExercisePage = () => {

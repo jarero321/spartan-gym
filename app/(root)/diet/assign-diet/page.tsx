@@ -40,7 +40,7 @@ import axios from "axios";
 import Loader from "@/app/components/Loader/Loader";
 import useDietStore from "@/app/hooks/useDietStore";
 import { DietFood } from "@/types";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

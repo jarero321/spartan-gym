@@ -39,7 +39,7 @@ import { LoadingButton } from "@mui/lab";
 import { PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import axios from "axios";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const defaultTheme = createTheme();
 

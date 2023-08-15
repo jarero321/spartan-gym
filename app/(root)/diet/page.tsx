@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { styled } from "@mui/system";
-import withAdminTrainer from "@/app/hoc/withAdminTrainer";
+import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const defaultTheme = createTheme();
 
