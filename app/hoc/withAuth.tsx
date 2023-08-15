@@ -10,10 +10,8 @@ interface WithAuthProps<P> {
   Component: React.ComponentType<P>;
 }
 
-export default function withAuth<P extends {}>({
-  Component,
-}: WithAuthProps<P>): React.ComponentType<P> {
-  return function AdminTrainerComponent(props: P) {
+const withAuth = <P extends {}>({ Component }: WithAuthProps<P>) => {
+  const AdminTrainerComponent: React.FC<P> = (props) => {
     const [hasMounted, setHasMounted] = useState<boolean>(false);
     const router = useRouter();
     const { data, status } = useSession();
@@ -52,4 +50,7 @@ export default function withAuth<P extends {}>({
     // Render the Component with the provided props
     return <Component {...props} />;
   };
-}
+  return AdminTrainerComponent;
+};
+
+export default withAuth;
