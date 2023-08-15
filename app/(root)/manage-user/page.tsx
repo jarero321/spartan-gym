@@ -1,9 +1,9 @@
 "use client";
 
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 const ManageUser: React.FC = () => {
   return <h1>Manage User</h1>;
 };
 
-export default withAuth({ Component: ManageUser });
+export default withAdminTrainer({ Component: ManageUser });

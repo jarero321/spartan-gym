@@ -39,7 +39,7 @@ import { LoadingButton } from "@mui/lab";
 import { PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import axios from "axios";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 const defaultTheme = createTheme();
 
@@ -402,4 +402,4 @@ const AssignExercisePage: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: AssignExercisePage });
+export default withAdminTrainer({ Component: AssignExercisePage });

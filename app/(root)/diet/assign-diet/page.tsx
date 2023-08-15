@@ -40,7 +40,7 @@ import axios from "axios";
 import Loader from "@/app/components/Loader/Loader";
 import useDietStore from "@/app/hooks/useDietStore";
 import { DietFood } from "@/types";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -392,4 +392,4 @@ const AssignDiet: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: AssignDiet });
+export default withAdminTrainer({ Component: AssignDiet });

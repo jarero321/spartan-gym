@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { styled } from "@mui/system";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 const defaultTheme = createTheme();
 
@@ -86,4 +86,4 @@ const DietPage: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: DietPage });
+export default withAdminTrainer({ Component: DietPage });

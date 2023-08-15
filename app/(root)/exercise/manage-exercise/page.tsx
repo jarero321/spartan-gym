@@ -27,7 +27,7 @@ import useExerciseStore from "@/app/hooks/useExerciseStore";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Empty from "@/app/components/Empty";
 import { useRouter } from "next/navigation";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 const defaultTheme = createTheme();
 
@@ -242,4 +242,4 @@ const ManageExercisePage: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: ManageExercisePage });
+export default withAdminTrainer({ Component: ManageExercisePage });

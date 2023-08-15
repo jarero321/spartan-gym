@@ -14,7 +14,7 @@ import { Box, CssBaseline, MenuItem, Select } from "@mui/material/";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { SessionUser } from "@/types";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 const defaultTheme = createTheme();
 
@@ -339,4 +339,4 @@ const AddMemberPage: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: AddMemberPage });
+export default withAdminTrainer({ Component: AddMemberPage });

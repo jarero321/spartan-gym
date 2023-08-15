@@ -13,7 +13,7 @@ import axios from "axios";
 import { User } from "@prisma/client";
 import useSWR from "swr";
 import Loading from "@/app/loading";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 // Custom data fetching function using SWR and Axios
 const fetcher = async (...args: Parameters<typeof axios>) => {
@@ -181,4 +181,4 @@ const AttendancePage: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: AttendancePage });
+export default withAdminTrainer({ Component: AttendancePage });

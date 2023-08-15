@@ -1,9 +1,14 @@
-'use client'
+"use client";
 
-import {Box, Typography} from "@mui/material";
+import WithUser from "@/app/hoc/withUser";
+import { Box, Typography } from "@mui/material";
 
-export default function MyAttendance() {
-    return  <Box>
-    <Typography variant="h2">My Attendance</Typography>
-  </Box>
-}
+const MyAttendancePage = () => {
+  return (
+    <Box>
+      <Typography variant="h2">My Attendance</Typography>
+    </Box>
+  );
+};
+
+export default WithUser({ Component: MyAttendancePage });

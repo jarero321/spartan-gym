@@ -1,7 +1,7 @@
 "use client";
 
 import useStudentsStore from "@/app/hooks/useStudentsStore";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 import Loading from "@/app/loading";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -262,4 +262,4 @@ const FeesPage: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: FeesPage });
+export default withAdminTrainer({ Component: FeesPage });

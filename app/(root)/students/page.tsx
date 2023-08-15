@@ -13,7 +13,7 @@ import { User } from "@prisma/client";
 import useStudentsStore from "@/app/hooks/useStudentsStore";
 import Loading from "@/app/loading";
 import Link from "next/link";
-import withAuth from "@/app/hoc/withAuth";
+import withAdminTrainer from "@/app/hoc/withAdminTrainer";
 
 const StudentsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // 0-based indexing
@@ -137,4 +137,4 @@ const StudentsPage: React.FC = () => {
   );
 };
 
-export default withAuth({ Component: StudentsPage });
+export default withAdminTrainer({ Component: StudentsPage });

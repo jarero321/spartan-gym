@@ -1,9 +1,14 @@
-'use client'
+"use client";
 
-import {Box, Typography} from "@mui/material"
+import WithUser from "@/app/hoc/withUser";
+import { Box, Typography } from "@mui/material";
 
-export default function MyDietPage() {
-    return <Box>
-    <Typography variant="h2">My Diet</Typography>
-  </Box>
-}
+const MyDietPage = () => {
+  return (
+    <Box>
+      <Typography variant="h2">My Diet</Typography>
+    </Box>
+  );
+};
+
+export default WithUser({ Component: MyDietPage });
