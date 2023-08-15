@@ -46,12 +46,12 @@ export default function ListItems() {
               <ListItemText primary="Add User" />
             </ListItemButton>
           </Link>
-          <Link href="/approve-user" passHref>
-            <ListItemButton title="Approve User">
+          <Link href="/manage-user" passHref>
+            <ListItemButton title="Manage User">
               <ListItemIcon>
                 <HowToRegIcon />
               </ListItemIcon>
-              <ListItemText primary="Approve User" />
+              <ListItemText primary="Manage User" />
             </ListItemButton>
           </Link>
         </>

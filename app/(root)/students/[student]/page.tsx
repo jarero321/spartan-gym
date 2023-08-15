@@ -18,7 +18,13 @@ const StudentPage: React.FC<{ params: { student: string } }> = async ({
     );
   }
 
-  const student = await getUser({ userId: params?.student as string });
+  let student;
+
+  try {
+    student = await getUser({ userId: params?.student as string });
+  } catch (err: Error | any) {
+    console.log(err);
+  }
 
   if (!student) {
     return (
