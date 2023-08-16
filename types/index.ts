@@ -1,3 +1,5 @@
+import { Fees } from "@prisma/client";
+
 type UserType = "admin" | "trainer" | "user";
 
 export type SessionUser = {

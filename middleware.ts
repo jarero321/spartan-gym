@@ -31,7 +31,6 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(request: NextRequestWithAuth) {
-    console.log(request.nextUrl.pathname);
 
     const user =
       request.nextauth.token?.role === "user" &&

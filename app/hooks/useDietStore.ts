@@ -1,4 +1,4 @@
-import { DietFood, DietStore } from "@/types";
+import { DietStore } from "@/types";
 import { create } from "zustand";
 
 const useDietStore = create<DietStore>((set) => ({
