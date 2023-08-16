@@ -242,4 +242,4 @@ const ManageExercisePage: React.FC = () => {
   );
 };
 
-export default withAdminTrainer({ Component: ManageExercisePage });
+export default ManageExercisePage;

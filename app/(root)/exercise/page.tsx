@@ -91,4 +91,4 @@ const ExercisePage: React.FC = () => {
   );
 };
 
-export default withAdminTrainer({ Component: ExercisePage });
+export default ExercisePage;

@@ -1,7 +1,6 @@
 "use client";
 
 import useStudentsStore from "@/app/hooks/useStudentsStore";
-import withAdminTrainer from "@/app/components/withAdminTrainer";
 import Loading from "@/app/loading";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -262,4 +261,4 @@ const FeesPage: React.FC = () => {
   );
 };
 
-export default withAdminTrainer({ Component: FeesPage });
+export default FeesPage;

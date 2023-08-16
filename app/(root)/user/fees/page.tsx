@@ -1,6 +1,5 @@
 "use client";
 
-import WithUser from "@/app/components/withUser";
 import { Box, Typography } from "@mui/material";
 
 const MyFeesPage = () => {
@@ -11,4 +10,4 @@ const MyFeesPage = () => {
   );
 };
 
-export default WithUser({ Component: MyFeesPage });
+export default MyFeesPage;

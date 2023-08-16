@@ -2,7 +2,6 @@ import ClientOnly from "@/app/components/ClientOnly/page";
 import Empty from "@/app/components/Empty";
 import getUser from "@/app/actions/getUser";
 import UserClient from "@/app/components/User/User";
-import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const StudentPage: React.FC<{ params: { student: string } }> = async ({
   params,
@@ -35,4 +34,4 @@ const StudentPage: React.FC<{ params: { student: string } }> = async ({
   );
 };
 
-export default withAdminTrainer({ Component: StudentPage });
+export default StudentPage;

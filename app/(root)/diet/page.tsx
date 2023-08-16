@@ -86,4 +86,4 @@ const DietPage: React.FC = () => {
   );
 };
 
-export default withAdminTrainer({ Component: DietPage });
+export default DietPage;

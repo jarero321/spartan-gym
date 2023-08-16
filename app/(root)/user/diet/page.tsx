@@ -1,6 +1,5 @@
 "use client";
 
-import WithUser from "@/app/components/withUser";
 import { Box, Typography } from "@mui/material";
 
 const MyDietPage = () => {
@@ -11,4 +10,4 @@ const MyDietPage = () => {
   );
 };
 
-export default WithUser({ Component: MyDietPage });
+export default MyDietPage;

@@ -28,7 +28,6 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Empty from "@/app/components/Empty";
 import { DietFoodList } from "@prisma/client";
 import useFoodStore from "@/app/hooks/useFoodStore";
-import withAdminTrainer from "@/app/components/withAdminTrainer";
 
 const defaultTheme = createTheme();
 
@@ -241,4 +240,4 @@ const ManageFoodPage: React.FC = () => {
   );
 };
 
-export default withAdminTrainer({ Component: ManageFoodPage });
+export default ManageFoodPage;

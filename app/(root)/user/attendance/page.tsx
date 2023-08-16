@@ -1,6 +1,5 @@
 "use client";
 
-import WithUser from "@/app/components/withUser";
 import { Box, Typography } from "@mui/material";
 
 const MyAttendancePage = () => {
@@ -11,4 +10,4 @@ const MyAttendancePage = () => {
   );
 };
 
-export default WithUser({ Component: MyAttendancePage });
+export default MyAttendancePage;
