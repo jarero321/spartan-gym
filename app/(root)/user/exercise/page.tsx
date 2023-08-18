@@ -47,8 +47,11 @@ const MyExercisePage = () => {
         <Container component="main" maxWidth="lg">
           <CssBaseline />
           <Box>
-          <Skeleton animation="wave" variant="text" sx={{ fontSize: '3rem' }} />
-
+            <Skeleton
+              animation="wave"
+              variant="text"
+              sx={{ fontSize: "3rem" }}
+            />
           </Box>
           <Box
             sx={{
@@ -65,10 +68,18 @@ const MyExercisePage = () => {
                   }}
                 >
                   <Typography component="h2" variant="h4">
-                    <Skeleton animation="wave" variant="text" sx={{ fontSize: "2rem" }} />
+                    <Skeleton
+                      animation="wave"
+                      variant="text"
+                      sx={{ fontSize: "2rem" }}
+                    />
                   </Typography>
-                  <Typography component="h2" variant="h4">
-                    <Skeleton animation="wave" variant="text" sx={{ fontSize: "2rem" }} />
+                  <Typography component="h2" variant="h6">
+                    <Skeleton
+                      animation="wave"
+                      variant="text"
+                      sx={{ fontSize: "2rem" }}
+                    />
                   </Typography>
                 </Box>
               </Grid>
@@ -81,23 +92,35 @@ const MyExercisePage = () => {
                   }}
                 >
                   <Typography component="h2" variant="h4">
-                    <Skeleton animation="wave" variant="text" sx={{ fontSize: "2rem" }} />
+                    <Skeleton
+                      animation="wave"
+                      variant="text"
+                      sx={{ fontSize: "2rem" }}
+                    />
                   </Typography>
-                  <Typography component="h2" variant="h4">
-                    <Skeleton animation="wave" variant="text" sx={{ fontSize: "2rem" }} />
+                  <Typography component="h2" variant="h6">
+                    <Skeleton
+                      animation="wave"
+                      variant="text"
+                      sx={{ fontSize: "2rem" }}
+                    />
                   </Typography>
                 </Box>
               </Grid>
             </Grid>
           </Box>
           <Box>
-          <Skeleton animation="wave" variant="rounded" sx={{
-            width: "100%",
-            height: {
-              xs: 200,
-              sm: 300
-            }
-          }}/>
+            <Skeleton
+              animation="wave"
+              variant="rounded"
+              sx={{
+                width: "100%",
+                height: {
+                  xs: 200,
+                  sm: 300,
+                },
+              }}
+            />
           </Box>
         </Container>
       </ThemeProvider>
@@ -130,7 +153,7 @@ const MyExercisePage = () => {
                 <Typography component="h2" variant="h4">
                   From
                 </Typography>
-                <Typography component="h2" variant="h4">
+                <Typography component="h2" variant="h6">
                   {new Date(data.fromDate).toISOString().slice(0, 10)}
                 </Typography>
               </Box>
@@ -146,7 +169,7 @@ const MyExercisePage = () => {
                 <Typography component="h2" variant="h4">
                   To
                 </Typography>
-                <Typography component="h2" variant="h4">
+                <Typography component="h2" variant="h6">
                   {new Date(data.toDate).toISOString().slice(0, 10)}
                 </Typography>
               </Box>
