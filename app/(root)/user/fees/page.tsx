@@ -14,14 +14,17 @@ import {
   Paper,
   TableSortLabel,
   Chip,
+  Button,
 } from "@mui/material";
-
-import { LoadingButton } from "@mui/lab";
 
 import { Fees } from "@prisma/client";
 import Loading from "@/app/loading";
 import Empty from "@/app/components/Empty";
-import Link from "next/link";
+
+import getStripe from "@/app/libs/getStripe";
+import toast from "react-hot-toast";
+import { LoadingButton } from "@mui/lab";
+import { PuffLoader } from "react-spinners";
 
 const fetcher = async (...args: Parameters<typeof axios>) => {
   const res = await axios(...args);
@@ -34,6 +37,9 @@ const MyFeesPage = () => {
   });
 
   const fees = data?.fees;
+
+  const [loadingPayment, setLoadingPayment] = useState<boolean>(false);
+  const [paymentId, setPaymentId] = useState<string>("");
 
   const [orderBy, setOrderBy] = useState<keyof Fees>("month");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -67,6 +73,43 @@ const MyFeesPage = () => {
     }
     return [];
   }, [fees, orderBy, order]);
+
+  const handlePay = async (fee: Fees) => {
+    try {
+      setLoadingPayment(true);
+      setPaymentId(fee.id);
+
+      const stripe = await getStripe();
+
+      if (!stripe) {
+        return;
+      }
+
+      const res = await axios.post("/api/payment", {
+        amount: fee.amount,
+        description: fee.message,
+        email: fee.email,
+        feeId: fee.id,
+        month: fee.month,
+        year: fee.year,
+      });
+
+      console.log(res.data);
+
+      if (res.data) {
+        toast.loading("Redirecting to Stripe Checkout...");
+
+        stripe.redirectToCheckout({
+          sessionId: res.data.stripeSession.id,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingPayment(false);
+      setPaymentId("");
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -102,7 +145,8 @@ const MyFeesPage = () => {
                   >
                     Year
                   </TableSortLabel>
-                </TableCell><TableCell>
+                </TableCell>
+                <TableCell>
                   <TableSortLabel
                     active={orderBy === "amount"}
                     direction={order}
@@ -141,9 +185,13 @@ const MyFeesPage = () => {
                   </TableCell>
                   <TableCell>
                     {!fee?.isPaid && !fee.transactionId && (
-                      <Link href={"/user/fees/pay/" + fee?.id} type="button">
+                      <LoadingButton
+                        loading={paymentId === fee.id && loadingPayment}
+                        type="button"
+                        onClick={() => handlePay(fee)}
+                      >
                         Pay
-                      </Link>
+                      </LoadingButton>
                     )}
                   </TableCell>
                 </TableRow>
