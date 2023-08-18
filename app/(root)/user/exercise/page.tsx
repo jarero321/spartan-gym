@@ -154,7 +154,7 @@ const MyExercisePage = () => {
                   From
                 </Typography>
                 <Typography component="h2" variant="h6">
-                  {new Date(data.fromDate).toISOString().slice(0, 10)}
+                  {new Date(data?.fromDate).toISOString().slice(0, 10)}
                 </Typography>
               </Box>
             </Grid>
@@ -170,7 +170,7 @@ const MyExercisePage = () => {
                   To
                 </Typography>
                 <Typography component="h2" variant="h6">
-                  {new Date(data.toDate).toISOString().slice(0, 10)}
+                  {new Date(data?.toDate).toISOString().slice(0, 10)}
                 </Typography>
               </Box>
             </Grid>
