@@ -32,3 +32,12 @@ export type DietStore = {
     value: boolean
   ) => void;
 };
+
+export type CustomizedExercise = {
+  id: string;
+  exerciseName: string;
+  sets: number;
+  steps: number;
+  kg: number;
+  rest: number;
+};

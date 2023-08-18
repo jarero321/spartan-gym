@@ -1,13 +1,5 @@
+import { CustomizedExercise } from "@/types";
 import { create } from "zustand";
-
-export type CustomizedExercise = {
-  id: string;
-  exerciseName: string;
-  sets: number;
-  steps: number;
-  kg: number;
-  rest: number;
-};
 
 type ExerciseStore = {
   customizedExercises: Record<string, CustomizedExercise>;
