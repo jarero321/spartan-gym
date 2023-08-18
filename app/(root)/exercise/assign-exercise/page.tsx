@@ -32,13 +32,12 @@ import useStudentsStore from "@/app/hooks/useStudentsStore";
 import Loader from "@/app/components/Loader/Loader";
 import { ExerciseList, User } from "@prisma/client";
 import useExerciseStore from "@/app/hooks/useExerciseStore";
-import useWorkOutStore, {
-  CustomizedExercise,
-} from "@/app/hooks/useWorkOutStore";
+import useWorkOutStore from "@/app/hooks/useWorkOutStore";
 import { LoadingButton } from "@mui/lab";
 import { PuffLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { CustomizedExercise } from "@/types";
 
 const defaultTheme = createTheme();
 
