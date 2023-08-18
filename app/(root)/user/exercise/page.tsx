@@ -1,7 +1,6 @@
 "use client";
 
 import Empty from "@/app/components/Empty";
-import Loading from "@/app/loading";
 import { CustomizedExercise } from "@/types";
 import {
   Box,
