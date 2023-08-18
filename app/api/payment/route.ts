@@ -43,8 +43,8 @@ export async function POST(req: Request) {
       ],
       submit_type: "pay",
       mode: "payment",
-      success_url: `http://localhost:3000/user/fees/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:3000/user/fees?canceled=true`,
+      success_url: `https://gym-management-system-abid.vercel.app/user/fees/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://gym-management-system-abid.vercel.app/user/fees?canceled=true`,
       customer_email: email,
       client_reference_id: feeId,
       metadata: {
