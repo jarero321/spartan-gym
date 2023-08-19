@@ -27,6 +27,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing data" }, { status: 400 });
     }
 
+    const redirectURL = new URL(req.url).origin;
+
     const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -43,8 +45,8 @@ export async function POST(req: Request) {
       ],
       submit_type: "pay",
       mode: "payment",
-      success_url: `https://gym-management-system-abid.vercel.app/user/fees/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://gym-management-system-abid.vercel.app/user/fees?canceled=true`,
+      success_url: `${redirectURL}/user/fees/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${redirectURL}/user/fees?canceled=true`,
       customer_email: email,
       client_reference_id: feeId,
       metadata: {
