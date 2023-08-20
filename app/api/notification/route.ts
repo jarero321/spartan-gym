@@ -102,6 +102,7 @@ export async function POST(req: Request) {
         userId: uid,
         notification_text,
         pathName,
+        read: false,
       },
     });
 

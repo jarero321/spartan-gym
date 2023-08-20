@@ -106,7 +106,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     error,
   } = useSWR("/api/notification", fetcher);
 
-  console.log(notifData, isLoading, error);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showNotifications, setShowNotifications] =
@@ -123,6 +122,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleRead = async (id: string) => {
+    try {
+      const res = await axios.patch(`/api/notification/${id}`);
+
+      console.log("res for handleRead", res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const notificationsOpen = Boolean(showNotifications);
@@ -231,6 +240,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                       <Link
                         key={notification.id}
                         href={notification?.pathName}
+                        onClick={() => handleRead(notification.id)}
                         passHref
                       >
                         <MenuItem onClick={handleClose}>
