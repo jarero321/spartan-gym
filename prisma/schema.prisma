@@ -164,3 +164,26 @@ model WorkOut {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 }
+
+enum NotificationType {
+  diet
+  exercise
+  fees
+  payment
+  reminder
+  message
+  present
+}
+
+model Notification {
+  id                String           @id @default(auto()) @map("_id") @db.ObjectId
+  notification_text String
+  type              NotificationType
+  userEmail         String?
+  userId            String?          @map("userId") @db.ObjectId
+  senderId          String?          @map("senderId") @db.ObjectId
+  read              Boolean          @default(false)
+  pathName          String
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}

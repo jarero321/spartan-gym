@@ -30,6 +30,11 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import ListItems from "@/app/components/listItems";
+import axios from "axios";
+import useSWR from "swr";
+import Loading from "../loading";
+
+import { Notification } from "@prisma/client";
 
 const drawerWidth: number = 240;
 
@@ -87,8 +92,21 @@ interface DashboardLayoutProps {
 
 const defaultTheme = createTheme();
 
+const fetcher = async (...args: Parameters<typeof axios>) => {
+  const res = await axios(...args);
+  return res;
+};
+
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const { data } = useSession();
+
+  const {
+    data: notifData,
+    isLoading,
+    error,
+  } = useSWR("/api/notification", fetcher);
+
+  console.log(notifData, isLoading, error);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showNotifications, setShowNotifications] =
@@ -115,20 +133,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     setShowNotifications(null);
   };
 
-  const notifications = [
-    {
-      id: 1,
-      notificationType: "message",
-      notificationText: "This is a notification",
-      path: "/message",
-    },
-    {
-      id: 2,
-      notificationType: "payment",
-      notificationText: "This is a payment notification",
-      path: "/fees",
-    },
-  ];
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -174,7 +181,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   aria-haspopup="true"
                   aria-expanded={notificationsOpen ? "true" : undefined}
                 >
-                  <Badge badgeContent={notifications.length} color="secondary">
+                  <Badge
+                    badgeContent={notifData ? notifData?.data?.data?.unRead : 0}
+                    color="secondary"
+                  >
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -215,17 +225,20 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                {notifications.map((notification) => (
-                  <Link
-                    key={notification.id}
-                    href={notification?.path}
-                    passHref
-                  >
-                    <MenuItem onClick={handleClose}>
-                      {notification.notificationText}
-                    </MenuItem>
-                  </Link>
-                ))}
+                {notifData &&
+                  notifData?.data?.data?.notifications?.map(
+                    (notification: Notification) => (
+                      <Link
+                        key={notification.id}
+                        href={notification?.pathName}
+                        passHref
+                      >
+                        <MenuItem onClick={handleClose}>
+                          {notification?.notification_text.slice(0, 25)}
+                        </MenuItem>
+                      </Link>
+                    )
+                  )}
                 <Divider />
                 <Link href="/notifications" passHref>
                   <MenuItem

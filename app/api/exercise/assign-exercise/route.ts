@@ -77,6 +77,17 @@ export async function POST(req: Request) {
               toDate: new Date(toDate),
             },
           });
+
+          await prisma.notification.create({
+            data: {
+              userId: student.id,
+              userEmail: student.email,
+              senderId: sessionUser.id,
+              type: "exercise",
+              notification_text: "You have a new exercise.",
+              pathName: "/user/exercise",
+            },
+          });
         } else {
           await prisma.exercise.create({
             data: {
@@ -93,6 +104,16 @@ export async function POST(req: Request) {
               },
               fromDate: new Date(fromDate),
               toDate: new Date(toDate),
+            },
+          });
+          await prisma.notification.create({
+            data: {
+              userId: student.id,
+              userEmail: student.email,
+              senderId: sessionUser.id,
+              type: "exercise",
+              notification_text: "You have a new exercise.",
+              pathName: "/user/exercise",
             },
           });
         }

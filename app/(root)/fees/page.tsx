@@ -32,6 +32,9 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { PuffLoader } from "react-spinners";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import Error from "next/error";
+import { SessionUser } from "@/types";
 
 const defaultTheme = createTheme();
 
@@ -64,10 +67,15 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
 const FeesPage: React.FC = () => {
   const { students, loading, fetchStudents } = useStudentsStore();
 
+  const { data: userSession, status } = useSession();
+
   // State variables for storing selected values
   const [selected, setSelected] = useState<User | null>(null);
   const [selectedMonth, setSelectedMonth] = useState(MONTHS[0]);
   const [selectedYear, setSelectedYear] = useState(YEAR_OBJECTS[0]);
+
+  const [reminderId, setReminderId] = useState<string>("");
+  const [reminderLoading, setReminderLoading] = useState<boolean>(false);
 
   const [orderBy, setOrderBy] = useState<keyof Fees>("email"); // Field to sort by (default is "name")
   const [order, setOrder] = useState<"asc" | "desc">("asc"); // Sorting order (default is "asc")
@@ -75,6 +83,7 @@ const FeesPage: React.FC = () => {
   const { data, isLoading } = useSWR("/api/fees", fetcher);
 
   const fees = data?.fees;
+  const sessionUser = userSession?.user as SessionUser;
 
   useEffect(() => {
     fetchStudents();
@@ -112,6 +121,42 @@ const FeesPage: React.FC = () => {
     }
   };
 
+  const handleReminder = async (
+    rmId: string,
+    email: string,
+    month: string,
+    year: string
+  ) => {
+    setReminderId(rmId);
+    setReminderLoading(true);
+
+    try {
+      const data = {
+        userEmail: email,
+        senderId: sessionUser.id,
+        type: "reminder",
+        notifcation_text: `You have not paid your fees for ${month} ${year}. Please pay your fees as soon as possible.`,
+        pathName: "/user/fees",
+      };
+
+      const res = await axios.post("/api/notification", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.status === 201) {
+        toast.success("Notification Sent Succesfully");
+      }
+    } catch (err: Error | any) {
+      console.log(err);
+      toast.error(err.response.data.error);
+    } finally {
+      setReminderId("");
+      setReminderLoading(false);
+    }
+  };
+
   const handleSortChange = (property: keyof Fees) => () => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -142,7 +187,7 @@ const FeesPage: React.FC = () => {
     return [];
   }, [fees, orderBy, order]);
 
-  if (loading || isLoading) {
+  if (loading || isLoading || status === "loading") {
     return <Loading />;
   }
 
@@ -382,12 +427,20 @@ const FeesPage: React.FC = () => {
                       <TableCell>
                         {!fee.isPaid && (
                           <LoadingButton
-                            loading
+                            loading={reminderId === fee.id && reminderLoading}
                             loadingPosition="center"
-                            startIcon={<AccessAlarmsIcon />}
                             variant="outlined"
+                            color="error"
+                            onClick={() =>
+                              handleReminder(
+                                fee.id,
+                                fee.email,
+                                fee.month,
+                                fee.year
+                              )
+                            }
                           >
-                            Save
+                            <AccessAlarmsIcon />
                           </LoadingButton>
                         )}
                       </TableCell>
