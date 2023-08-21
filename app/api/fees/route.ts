@@ -22,6 +22,16 @@ export async function POST(req: Request) {
 
     const { email, amount, month, year, message } = body;
 
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const feesExists = await prisma.fees.findFirst({
       where: {
         email,
@@ -50,10 +60,27 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({
-      data: fees,
-      message: `Fees for the month of ${month} ${year} added successfully`,
+    await prisma.notification.create({
+      data: {
+        userEmail: user.email,
+        senderId: sessionUser.id,
+        type: "fees",
+        userId: user.id,
+        notification_text: message,
+        pathName: "/user/fees",
+        read: false,
+      },
     });
+
+    return NextResponse.json(
+      {
+        data: fees,
+        message: `Fees for the month of ${month} ${year} added successfully`,
+      },
+      {
+        status: 201,
+      }
+    );
   } catch (err: Error | any) {
     return NextResponse.error();
   }

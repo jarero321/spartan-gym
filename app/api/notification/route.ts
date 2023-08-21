@@ -28,6 +28,24 @@ export async function GET() {
       where: {
         userId: user.id,
       },
+      include: {
+        sender: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
     });
 
     if (!notifications || notifications.length === 0) {
@@ -43,10 +61,8 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        data: {
-          notifications,
-          unRead: unRead.length,
-        },
+        data: notifications,
+        unRead: unRead.length,
       },
       { status: 200 }
     );
@@ -67,6 +83,16 @@ export async function POST(req: Request) {
       await req.json();
 
     let uEmail, uid;
+    console.log({
+      notification_text,
+      type,
+      userEmail,
+      userId,
+      senderId,
+      pathName,
+      uid,
+      uEmail,
+    });
 
     if (userEmail) {
       const user = await prisma.user.findUnique({

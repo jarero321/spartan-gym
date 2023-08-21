@@ -67,6 +67,9 @@ model User {
   adminsForUsers   User[] @relation("AdminToUser")
   trainersForUsers User[] @relation("TrainerToUser")
 
+  notifReceiver Notification[] @relation("userId")
+  notifSender   Notification[] @relation("senderId")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -180,10 +183,14 @@ model Notification {
   notification_text String
   type              NotificationType
   userEmail         String?
-  userId            String?          @map("userId") @db.ObjectId
-  senderId          String?          @map("senderId") @db.ObjectId
-  read              Boolean          @default(false)
-  pathName          String
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+
+  user   User?   @relation(fields: [userId], references: [id], name: "userId")
+  userId String? @map("userId") @db.ObjectId
+
+  sender    User?    @relation(fields: [senderId], references: [id], name: "senderId")
+  senderId  String?  @map("senderId") @db.ObjectId
+  read      Boolean  @default(false)
+  pathName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

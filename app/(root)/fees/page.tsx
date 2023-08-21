@@ -112,23 +112,11 @@ const FeesPage: React.FC = () => {
         },
       });
 
+      console.log(res)
+
       if (res.status === 201) {
         reset();
         toast.success(res.data.message);
-
-        const notifData = {
-          userEmail: data.email,
-          senderId: sessionUser.id,
-          type: "fees",
-          notifcation_text: data.message,
-          pathName: "/user/fees",
-        };
-  
-        await axios.post("/api/notification", notifData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
       }
     } catch (err: Error | any) {
       toast.error(err.response.data.error);
@@ -158,6 +146,8 @@ const FeesPage: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
+
+      console.log("reminder",res)
 
       if (res.status === 201) {
         toast.success("Notification Sent Succesfully");

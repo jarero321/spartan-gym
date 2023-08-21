@@ -106,6 +106,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     error,
   } = useSWR("/api/notification", fetcher);
 
+  console.log(notifData);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showNotifications, setShowNotifications] =
@@ -191,7 +192,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   aria-expanded={notificationsOpen ? "true" : undefined}
                 >
                   <Badge
-                    badgeContent={notifData ? notifData?.data?.data?.unRead : 0}
+                    badgeContent={notifData ? notifData?.data?.unRead : 0}
                     color="secondary"
                   >
                     <NotificationsIcon />
@@ -235,20 +236,18 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
                 {notifData &&
-                  notifData?.data?.data?.notifications?.map(
-                    (notification: Notification) => (
-                      <Link
-                        key={notification.id}
-                        href={notification?.pathName}
-                        onClick={() => handleRead(notification.id)}
-                        passHref
-                      >
-                        <MenuItem onClick={handleClose}>
-                          {notification?.notification_text.slice(0, 25)}
-                        </MenuItem>
-                      </Link>
-                    )
-                  )}
+                  notifData?.data?.data?.map((notification: Notification) => (
+                    <Link
+                      key={notification.id}
+                      href={notification?.pathName}
+                      onClick={() => handleRead(notification.id)}
+                      passHref
+                    >
+                      <MenuItem onClick={handleClose}>
+                        {notification?.notification_text.slice(0, 25)}
+                      </MenuItem>
+                    </Link>
+                  ))}
                 <Divider />
                 <Link href="/notifications" passHref>
                   <MenuItem
