@@ -70,6 +70,8 @@ model User {
   notifReceiver Notification[] @relation("userId")
   notifSender   Notification[] @relation("senderId")
 
+  attendanceTrack Attendance[] @relation("attendance_track")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -191,6 +193,20 @@ model Notification {
   senderId  String?  @map("senderId") @db.ObjectId
   read      Boolean  @default(false)
   pathName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Attendance {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  fromTime  String
+  toTime    String
+  isPresent Boolean @default(false)
+  date      String
+
+  student   User?   @relation(fields: [studentId], references: [id], name: "attendance_track")
+  studentId String? @map("attendance_track") @db.ObjectId
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

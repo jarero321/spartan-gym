@@ -1,0 +1,113 @@
+import {NextResponse} from "next/server";
+import {SessionUser} from "@/types";
+import {getSession} from "@/app/api/users/route";
+import prisma from "@/app/libs/prismadb"
+import {User} from "@prisma/client";
+
+
+export async function POST(req: Request) {
+    try {
+        const session = await getSession()
+        const sessionUser = session?.user as SessionUser
+
+        if (!session) {
+            return NextResponse.json({error: "Unauthenticated"}, {
+                status: 401
+            })
+        }
+
+        if (sessionUser.role === "user") {
+            return NextResponse.json({
+                error: "Unauthorized"
+            }, {
+                status: 403
+            })
+        }
+
+        const {fromTime, toTime} = await req.json()
+
+        if (fromTime === "" || toTime === "") {
+            return NextResponse.json({error: "Missing fields"}, {
+                status: 400
+            })
+        }
+
+        const toDate = (timeString: string) => {
+            const now = new Date();
+            const [hours, minutes] = timeString.split(":");
+
+            // Set the hours and minutes of the current date
+            now.setHours(Number(hours));
+            now.setMinutes(Number(minutes));
+
+            return now;
+        };
+
+        const fTime = toDate(fromTime);
+        const tTime = toDate(toTime);
+
+        if (tTime <= fTime) {
+            return NextResponse.json({
+                error: "To can't be less than or equal to From Time"
+            }, {
+                status: 400
+            });
+        }
+        const toDay = new Date().toISOString().split("T")[0]
+
+        const findAttendance = await prisma.attendance.findMany({
+            where: {
+                date: toDay
+            }
+        })
+
+        if (findAttendance.length > 0) {
+            return NextResponse.json({
+                error: "Attendance already taken"
+            }, {
+                status: 400
+            });
+        }
+
+        const students = await prisma.user.findMany({
+            where: {
+                role: "user"
+            }
+        })
+
+        const attendance = await prisma.attendance.createMany({
+            data: students.map((student: User) => ({
+                studentId: student.id,
+                date: toDay,
+                fromTime: fromTime,
+                toTime: toTime,
+                isPresent: false
+            }))
+        })
+
+        console.log("hit 5")
+
+        console.log(attendance)
+
+        if (!attendance) {
+            return NextResponse.json({
+                error: "Attendance not taken"
+            }, {
+                status: 400
+            });
+        }
+
+        return NextResponse.json({
+            message: "Attendance taken successfully"
+        }, {
+            status: 201
+        })
+
+    } catch (err: Error | any) {
+        return NextResponse.json({
+            error: err.message
+        }, {
+            status: err.status
+        })
+    }
+}
