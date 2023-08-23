@@ -15,11 +15,10 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableSortLabel,
   TableBody,
   Paper,
+  Typography,
 } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -28,6 +27,8 @@ import { LoadingButton } from "@mui/lab";
 import useSWR from "swr";
 import { Attendance, User } from "@prisma/client";
 
+import Loader from "@/app/components/Loader/Loader";
+import { toDate } from "@/utils";
 const defaultTheme = createTheme();
 
 const getCurrentTime = () => {
@@ -43,11 +44,9 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
 };
 
 const AttendancePage: React.FC = () => {
-  const { data, isLoading, error } = useSWR("/api/attendance", fetcher);
+  const { data, isLoading } = useSWR("/api/attendance", fetcher);
 
   const [attendanceError, setAttendanceError] = useState<string>("");
-
-  console.log(data, isLoading, error);
 
   const {
     register,
@@ -78,6 +77,10 @@ const AttendancePage: React.FC = () => {
       setAttendanceError(err.response.data.error);
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -156,12 +159,16 @@ const AttendancePage: React.FC = () => {
             mt: 3,
           }}
         >
-          <Table sx={{ minWidth: 650, textAlign: "center" }} aria-label="simple table">
+          <Table
+            sx={{ minWidth: 650, textAlign: "center" }}
+            aria-label="simple table"
+          >
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
+                <TableCell>Name & Email</TableCell>
+                <TableCell>From & To</TableCell>
+                <TableCell>Date</TableCell>
                 <TableCell>Attend</TableCell>
                 <TableCell>Attend Time</TableCell>
               </TableRow>
@@ -183,11 +190,29 @@ const AttendancePage: React.FC = () => {
                     ) => (
                       <TableRow key={attendance.id}>
                         <TableCell></TableCell>
-                        <TableCell>{attendance.student.name}</TableCell>
-                        <TableCell>{attendance.student.email}</TableCell>
-                        <TableCell sx={{
-                          color: !attendance.isPresent ? "error" : "success"
-                        }}>
+                        <TableCell>
+                          {attendance.student.name}
+                          <br />
+                          {attendance.student.email}
+                        </TableCell>
+                        <TableCell>
+                          From: {toDate(attendance.fromTime)}
+                          <br />
+                          To: {toDate(attendance.toTime)}
+                        </TableCell>
+
+                        <TableCell>
+                          {
+                            new Date(attendance.createdAt)
+                              .toISOString()
+                              .split("T")[0]
+                          }
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            color: !attendance.isPresent ? "error" : "success",
+                          }}
+                        >
                           {!attendance.isPresent ? "Absent" : "Present"}
                         </TableCell>
                         <TableCell>
