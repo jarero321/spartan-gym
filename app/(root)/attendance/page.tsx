@@ -1,5 +1,6 @@
-"use client"
+"use client";
 
+import { useState } from "react";
 import {
   Box,
   createTheme,
@@ -8,15 +9,26 @@ import {
   Container,
   Grid,
   FormControl,
-  TextField, Button,
-} from "@mui/material"
+  TextField,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableSortLabel,
+  TableBody,
+  Paper,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { LoadingButton } from "@mui/lab";
 
-const defaultTheme = createTheme()
+import useSWR from "swr";
+import { Attendance, User } from "@prisma/client";
 
-
+const defaultTheme = createTheme();
 
 const getCurrentTime = () => {
   const now = new Date();
@@ -24,7 +36,19 @@ const getCurrentTime = () => {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 };
+
+const fetcher = async (...args: Parameters<typeof axios>) => {
+  const res = await axios(...args);
+  return res.data;
+};
+
 const AttendancePage: React.FC = () => {
+  const { data, isLoading, error } = useSWR("/api/attendance", fetcher);
+
+  const [attendanceError, setAttendanceError] = useState<string>("");
+
+  console.log(data, isLoading, error);
+
   const {
     register,
     reset,
@@ -33,86 +57,155 @@ const AttendancePage: React.FC = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       fromTime: getCurrentTime(),
-        toTime: getCurrentTime(),
+      toTime: getCurrentTime(),
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
+      setAttendanceError("");
       const res = await axios.post("/api/attendance", data, {
         headers: {
-          'Content-Type' : "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
 
-        console.log(res)
-
-    } catch (err: Error | any ) {
-      console.log(err)
+      if (res.status === 201) {
+        toast.success(res.data.message);
+        setAttendanceError("");
+      }
+    } catch (err: Error | any) {
+      setAttendanceError(err.response.data.error);
     }
+  };
 
-  }
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="lg">
+        <CssBaseline />
 
-
-  return <ThemeProvider theme={defaultTheme}>
-    <Container component="main" maxWidth="lg">
-      <CssBaseline />
-
-      <Box component={'form'}   noValidate
-           onSubmit={handleSubmit(onSubmit)}
-           sx={{ mt: 3 }}>
-
-      <Box sx={{ mt: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                  type="time"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label={"From"}
-                  autoFocus
-                  {...register("fromTime", {required: true})}
-                  helperText={
-                    errors.fromTime && typeof errors.fromTime.message === "string"
+        <Box
+          component={"form"}
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{ mt: 3 }}
+        >
+          <Box sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <TextField
+                    type="time"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    label={"From"}
+                    autoFocus
+                    {...register("fromTime", { required: true })}
+                    helperText={
+                      errors.fromTime &&
+                      typeof errors.fromTime.message === "string"
                         ? errors.fromTime.message
                         : null
-                  }
-                  error={!!errors?.fromTime?.message}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                  type="time"
-                  variant="outlined"
-                  fullWidth
-                  label={"To"}
-                  autoFocus
-                  {...register("toTime", {required: true})}
-                  helperText={
-                    errors.toTime && typeof errors.toTime.message === "string"
+                    }
+                    error={!!errors?.fromTime?.message}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <TextField
+                    type="time"
+                    variant="outlined"
+                    fullWidth
+                    label={"To"}
+                    autoFocus
+                    {...register("toTime", { required: true })}
+                    helperText={
+                      errors.toTime && typeof errors.toTime.message === "string"
                         ? errors.toTime.message
                         : null
-                  }
-                  error={!!errors?.toTime?.message}
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Box sx={{mt: 3, display: "flex", justifyContent: "space-between"}}>
-          <Button variant="contained" type={'submit'}>
-            Create Attendance
-          </Button>
-          <Typography variant="body1">Hello world</Typography>
+                    }
+                    error={!!errors?.toTime?.message}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Box
+              sx={{ mt: 3, display: "flex", justifyContent: "space-between" }}
+            >
+              <LoadingButton
+                loading={isSubmitting}
+                variant="contained"
+                type={"submit"}
+              >
+                Create Attendance
+              </LoadingButton>
+              {attendanceError && (
+                <Typography color={"error"} variant="body1">
+                  {attendanceError}
+                </Typography>
+              )}
+            </Box>
+          </Box>
         </Box>
-      </Box>
-      </Box>
 
-    </Container>
-  </ThemeProvider>
-}
+        <TableContainer
+          component={Paper}
+          sx={{
+            mt: 3,
+          }}
+        >
+          <Table sx={{ minWidth: 650, textAlign: "center" }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell></TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Attend</TableCell>
+                <TableCell>Attend Time</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.data?.length > 0 &&
+                data?.data
+                  ?.sort((a: Attendance, b: Attendance) => {
+                    return (
+                      new Date(b.updatedAt).getTime() -
+                      new Date(a.updatedAt).getTime()
+                    );
+                  })
+                  .map(
+                    (
+                      attendance: Attendance & {
+                        student: User;
+                      }
+                    ) => (
+                      <TableRow key={attendance.id}>
+                        <TableCell></TableCell>
+                        <TableCell>{attendance.student.name}</TableCell>
+                        <TableCell>{attendance.student.email}</TableCell>
+                        <TableCell sx={{
+                          color: !attendance.isPresent ? "error" : "success"
+                        }}>
+                          {!attendance.isPresent ? "Absent" : "Present"}
+                        </TableCell>
+                        <TableCell>
+                          {attendance.isPresent
+                            ? new Date(
+                                attendance.updatedAt
+                              ).toLocaleTimeString()
+                            : "N/A"}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+    </ThemeProvider>
+  );
+};
 
 export default AttendancePage;
