@@ -128,7 +128,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
         try {
             const res = await axios.patch(`/api/notification/${notificationId}`);
 
-            if(res.status === 201) {
+            if (res.status === 201) {
                 await mutate("/api/notification")
             }
         } catch (error) {
@@ -212,7 +212,8 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                 anchorOrigin={{horizontal: "right", vertical: "bottom"}}
                             >
                                 {notifyData &&
-                                    notifyData?.data?.data?.filter((n: Notification) => !n.read)?.map((notification: Notification) => (
+                                    notifyData?.data?.data?.filter((n: Notification) => !n.read)?.sort((a: Notification, b: Notification) => (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                                    ).map((notification: Notification) => (
                                         <Link
                                             key={notification.id}
                                             href={notification?.pathName}
