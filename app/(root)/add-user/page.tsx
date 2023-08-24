@@ -35,9 +35,9 @@ const AddMemberPage: React.FC = () => {
       email: "",
       password: "",
       image: "",
-      age: 0,
-      weight: 0,
-      height: 0,
+      age: 18,
+      weight: 50,
+      height: 100,
       gender: "",
       goal: "",
       level: "",
@@ -97,7 +97,7 @@ const AddMemberPage: React.FC = () => {
                     ? errors.name.message
                     : null
                 }
-                error={errors?.name?.message ? true : false}
+                error={!!errors?.name?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -130,7 +130,7 @@ const AddMemberPage: React.FC = () => {
                 id="email"
                 label="Email Address"
                 autoFocus
-                error={errors?.email?.message ? true : false}
+                error={!!errors?.email?.message}
                 helperText={
                   errors.email && typeof errors.email.message === "string"
                     ? errors.email.message
@@ -153,7 +153,7 @@ const AddMemberPage: React.FC = () => {
                 id="password"
                 label="Enter Password"
                 autoFocus
-                error={errors?.password?.message ? true : false}
+                error={!!errors?.password?.message}
                 helperText={
                   errors.password && typeof errors.password.message === "string"
                     ? errors.password.message
@@ -205,7 +205,7 @@ const AddMemberPage: React.FC = () => {
                     ? errors.age.message
                     : null
                 }
-                error={errors?.age?.message ? true : false}
+                error={!!errors?.age?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -215,7 +215,7 @@ const AddMemberPage: React.FC = () => {
                 required
                 fullWidth
                 id="weight"
-                label="Weight"
+                label="Weight(k.g.)"
                 autoFocus
                 {...register("weight", {
                   required: true,
@@ -234,7 +234,7 @@ const AddMemberPage: React.FC = () => {
                     ? errors.weight.message
                     : null
                 }
-                error={errors?.weight?.message ? true : false}
+                error={!!errors?.weight?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -245,7 +245,7 @@ const AddMemberPage: React.FC = () => {
                 fullWidth
                 min={0}
                 id="height"
-                label="Height"
+                label="Height(c.m)"
                 autoFocus
                 {...register("height", {
                   required: true,
@@ -264,7 +264,7 @@ const AddMemberPage: React.FC = () => {
                     ? errors.height.message
                     : null
                 }
-                error={errors?.height?.message ? true : false}
+                error={!!errors?.height?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>

@@ -1,21 +1,24 @@
-"use client";
 
-import { Box, Typography } from "@mui/material/";
-import { useSession } from "next-auth/react";
+import UserDashboard from "@/app/components/UserDashboard";
+import AdminTrainerDashboard from "@/app/components/AdminTrainerDashboard";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import ClientOnly from "@/app/components/ClientOnly/page";
+import Empty from "@/app/components/Empty";
 
-export default function DashboardPage() {
-  const { data, status } = useSession();
+export default async function DashboardPage() {
 
-  if (status === "loading") return <p>Loading...</p>;
+  const user= await getCurrentUser()
 
-  if (status === "unauthenticated") return <p>Access Denied</p>;
+    if(!user) {
+        return <ClientOnly>
+            <Empty title={'Wait'} subtitle={'Wait for sometime'} />
+        </ClientOnly>
+    }
+
 
   return (
-    <Box>
-      <Typography variant="h2">
-        Dashboard
-      </Typography>
-        {data?.user?.email}
-    </Box>
+    <ClientOnly>
+        {user?.role === 'user' ? <UserDashboard user={user}/> : <AdminTrainerDashboard user={user} />}
+    </ClientOnly>
   );
 }

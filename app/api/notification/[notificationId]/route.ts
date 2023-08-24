@@ -36,11 +36,6 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({message: "Mark as read"}, {
             status: 201
         })
-
-        return NextResponse.json({
-            message: "hello world"
-        })
-
     } catch (err: Error | any) {
         return NextResponse.json({
             error: err.message

@@ -83,16 +83,6 @@ export async function POST(req: Request) {
       await req.json();
 
     let uEmail, uid;
-    console.log({
-      notification_text,
-      type,
-      userEmail,
-      userId,
-      senderId,
-      pathName,
-      uid,
-      uEmail,
-    });
 
     if (userEmail) {
       const user = await prisma.user.findUnique({
