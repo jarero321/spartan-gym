@@ -7,11 +7,14 @@ import {LoadingButton} from "@mui/lab";
 import {useRouter} from "next/navigation";
 import Empty from "@/app/components/Empty";
 import {User, Notification} from "@prisma/client";
-import {fetcher} from "@/app/(root)/profile/page";
 import Loader from "@/app/components/Loader/Loader";
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box} from "@mui/material";
 
 
+const fetcher = async (...args: Parameters <typeof axios>) => {
+    const res = await axios(...args);
+    return res.data
+}
 export default function NotificationsPage() {
     const {data, isLoading, error, mutate} = useSWR("/api/notification", fetcher)
     const router = useRouter()

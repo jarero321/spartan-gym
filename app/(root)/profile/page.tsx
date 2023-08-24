@@ -21,7 +21,7 @@ import Image from "next/image";
 
 const defaultTheme = createTheme();
 
-export const fetcher = async (...args: Parameters<typeof axios>) => {
+const fetcher = async (...args: Parameters<typeof axios>) => {
     const res = await axios(...args);
     return res.data
 }

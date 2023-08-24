@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { options } from "../auth/[...nextauth]/options";
 import { SessionUser } from "@/types";
 import prisma from "@/app/libs/prismadb";
+import {User} from "@prisma/client";
 
 export async function getSession() {
   try {
@@ -60,21 +61,15 @@ export async function GET(request: NextApiRequest) {
   const users = await prisma.user.findMany({
     skip: (parsedPage - 1) * parsedLimit,
     take: parsedLimit,
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      age: true,
-      gender: true,
-      height: true,
-      weight: true,
-      createdAt: true,
-      updatedAt: true,
-    },
   });
 
+  users.map((user: User) => (user.hashedPassword = undefined as unknown as any))
+
   const count = await prisma.user.count();
+
+  const onlineUsers = users.filter((user: User) => user.isActive === true);
+  const students = users.filter((user: User) => user.role === "user");
+  const trainers = users.filter((user: User) => user.role === "trainer");
 
   const pages = Math.ceil(count / parsedLimit);
 
@@ -91,6 +86,9 @@ export async function GET(request: NextApiRequest) {
   return NextResponse.json({
     status: 200,
     data: users,
+    onlineUsers: onlineUsers.length,
+    students: students.length,
+    trainers: trainers.length,
     count,
     pages,
     pagination,
