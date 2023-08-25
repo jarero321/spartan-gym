@@ -9,7 +9,7 @@ import {
   TableRow,
   Paper,
   TableSortLabel,
-  TablePagination, TextField, Autocomplete, Select
+  TablePagination, Select, Button
 } from "@mui/material";
 import axios from "axios";
 import { User } from "@prisma/client";
@@ -17,6 +17,7 @@ import useSWR from "swr";
 import Loading from "@/app/loading";
 import useTrainersStore from "@/app/hooks/useTrainersStore";
 import MenuItem from "@mui/material/MenuItem";
+import toast from "react-hot-toast";
 
 // Custom data fetching function using SWR and Axios
 const fetcher = async (...args: Parameters<typeof axios>) => {
@@ -45,8 +46,26 @@ const ManageUser: React.FC = () => {
   }, [fetchTrainers]);
 
 
-  const handleChangeTrainer = async (event:string, userId: string) => {
-    console.log(event, userId)
+  const handleChangeTrainer = async (trainerId:string, userId: string) => {
+      try {
+        const data = {
+          trainerId,
+          userId,
+        }
+        const res = await axios.patch("/api/users", data, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+
+
+        if(res.status === 201) {
+          toast.success(res.data.message)
+          await mutate(`/api/users?page=${currentPage}&limit=${rowsPerPage}`)
+        }
+      } catch (err: Error | any) {
+        console.log(err)
+      }
   }
 
 
@@ -97,7 +116,6 @@ const ManageUser: React.FC = () => {
     return [];
   }, [data, orderBy, order]);
 
-  console.log(sortedData)
 
   // Manually trigger data re-fetch whenever page or rowsPerPage changes
   useEffect(() => {
@@ -147,6 +165,7 @@ const ManageUser: React.FC = () => {
                 Role
               </TableSortLabel>
             </TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -179,6 +198,7 @@ const ManageUser: React.FC = () => {
                   </Select>
                 </TableCell>
                 <TableCell>{user?.role}</TableCell>
+                <TableCell><Button variant={'contained'} color={'error'}>Delete</Button></TableCell>
               </TableRow>
           ))}
         </TableBody>
