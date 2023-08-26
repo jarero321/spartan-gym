@@ -7,11 +7,11 @@ import Empty from "@/app/components/Empty";
 
 export default async function DashboardPage() {
 
-  const user= await getCurrentUser()
+  const user = await getCurrentUser()
 
     if(!user) {
         return <ClientOnly>
-            <Empty title={'Wait'} subtitle={'Wait for sometime'} />
+            <Empty title={'Loading...'} subtitle={'...'} />
         </ClientOnly>
     }
 

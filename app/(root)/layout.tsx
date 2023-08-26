@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {useState} from "react";
+import React, {useState} from "react";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles";
@@ -35,6 +35,8 @@ import useSWR from "swr";
 import Loading from "../loading";
 
 import {Notification} from "@prisma/client";
+import toast from "react-hot-toast";
+import {Select} from "@mui/material";
 
 const drawerWidth: number = 240;
 
@@ -144,6 +146,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
         setShowNotifications(null);
     };
 
+
     if (isLoading) {
         return <Loading/>;
     }
@@ -177,7 +180,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                             noWrap
                             sx={{flexGrow: 1}}
                         >
-                            {data?.user?.name}
+                           Gym Management System
                         </Typography>
                         <Box>
                             <Tooltip title="Notifications">
@@ -200,6 +203,8 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                                     </Badge>
                                 </IconButton>
                             </Tooltip>
+
+
 
                             <Menu
                                 anchorEl={showNotifications}

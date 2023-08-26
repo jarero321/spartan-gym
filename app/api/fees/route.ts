@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 import prisma from "@/app/libs/prismadb";
 import Error from "next/error";
+import {Fees} from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
@@ -101,6 +102,18 @@ export async function GET() {
 
     const fees = await prisma?.fees.findMany();
 
+
+    let income = 0;
+    let unpaid = 0;
+
+    fees.forEach((fee: Fees) => {
+      if (fee.isPaid && fee.transactionId) {
+        income += fee.amount
+      } else {
+        unpaid += fee.amount
+      }
+    })
+
     if (!fees || fees.length === 0) {
       return NextResponse.json(
         {
@@ -115,6 +128,8 @@ export async function GET() {
     return NextResponse.json(
       {
         fees,
+        income,
+        unpaid
       },
       {
         status: 200,

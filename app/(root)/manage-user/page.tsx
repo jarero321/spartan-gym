@@ -154,6 +154,9 @@ const ManageUser: React.FC = () => {
               </TableSortLabel>
             </TableCell>
             <TableCell>
+              Online Status
+            </TableCell>
+            <TableCell>
               Assign Trainer
             </TableCell>
             <TableCell>
@@ -178,6 +181,7 @@ const ManageUser: React.FC = () => {
                 <TableCell>{i + 1}</TableCell>
                 <TableCell>{user?.name}</TableCell>
                 <TableCell>{user?.email}</TableCell>
+                <TableCell>{user?.isActive ? "🟢 Online" : "🔴 Offline"}</TableCell>
                 <TableCell>
                   <Select
                       sx={{
