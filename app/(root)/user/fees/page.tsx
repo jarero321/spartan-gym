@@ -99,7 +99,7 @@ const MyFeesPage = () => {
       if (res.data) {
         toast.loading("Redirecting to Stripe Checkout...");
 
-        stripe.redirectToCheckout({
+        await stripe.redirectToCheckout({
           sessionId: res.data.stripeSession.id,
         });
       }

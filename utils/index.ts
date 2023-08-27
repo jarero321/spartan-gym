@@ -37,7 +37,6 @@ export const handleActiveStatus = async (status: string, mutate?: KeyedMutator<a
 
         if (res.status === 200) {
             mutate && await mutate("/api/users")
-
         }
     } catch (err: Error | any) {
         console.log(err)

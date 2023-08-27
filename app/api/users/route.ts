@@ -6,6 +6,7 @@ import {options} from "../auth/[...nextauth]/options";
 import {SessionUser} from "@/types";
 import prisma from "@/app/libs/prismadb";
 import {User} from "@prisma/client";
+import {revalidatePath} from "next/cache";
 
 export async function getSession() {
     try {
@@ -257,6 +258,7 @@ export async function PATCH(req: Request) {
             })
         }
 
+
         const userUpdate = await prisma.user.update({
             where: {
                 id: sessionUser.id
@@ -266,12 +268,17 @@ export async function PATCH(req: Request) {
             }
         })
 
+
         if (!userUpdate) {
             return NextResponse.json({
                 error: "Updating failed"
             }, {
                 status: 400
             })
+        }
+
+        if (body.isActive) {
+            revalidatePath("/")
         }
 
         return NextResponse.json({

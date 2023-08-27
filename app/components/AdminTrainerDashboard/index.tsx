@@ -11,6 +11,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import {handleActiveStatus} from "@/utils";
+import AttendancesGraph from "@/app/components/AdminTrainerDashboard/AttendancesGraph";
 
 const fetcher = async (...args: Parameters<typeof axios>) => {
     const res = await axios(...args);
@@ -20,15 +21,9 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
 const AdminTrainerDashboard = ({user}: { user: User }) => {
     const {data: fees, isLoading: feesLoading} = useSWR("/api/fees", fetcher)
     const {data: users, isLoading: usersLoading, mutate} = useSWR("/api/users", fetcher)
+    const { data: attendances, isLoading: attendancesLoading } = useSWR("/api/attendance", fetcher);
 
-
-    console.log(fees)
-
-
-
-
-
-    if (feesLoading || usersLoading) {
+    if (feesLoading || usersLoading || attendancesLoading) {
         return <Loader/>
     }
 
@@ -64,57 +59,32 @@ const AdminTrainerDashboard = ({user}: { user: User }) => {
             <Grid container spacing={3}>
                 {user.role === "admin" && <>
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="Income" total={"$" + fees.income} color={'primary'}
-                                          icon={<AttachMoneyIcon sx={{
-                                              fontSize: {
-                                                  xs: "large",
-                                                  md: 40
-                                              }
-                                          }}/>}/>
+                        <AppWidgetSummary title="Income" total={"$" + fees.income ? fees.income : 0} color={'primary'}
+                                          icon={<AttachMoneyIcon />}/>
                     </Grid>
 
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="Unpaid" total={"$" + fees.unpaid} color="warning"
-                                          icon={<AttachMoneyIcon sx={{
-                                              fontSize: {
-                                                  xs: "large",
-                                                  md: 40
-                                              }
-                                          }}/>}/>
+                        <AppWidgetSummary title="Unpaid" total={"$" + fees.unpaid ? fees.unpaid : 0} color="warning"
+                                          icon={<AttachMoneyIcon />}/>
                     </Grid>
                 </>}
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Active Now" total={`${users?.onlineUsers}`} color="info"
-                                      icon={<PeopleIcon
-                                          sx={{
-                                              fontSize: {
-                                                  xs: "large",
-                                                  md: 40
-                                              }
-                                          }}/>}/>
+                    <AppWidgetSummary title="Active Now" total={`${users.onlineUsers ? users.onlineUsers : 0}`} color="info"
+                                      icon={<PeopleIcon />}/>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Students" total={`${users?.students}`} color="warning"
-                                      icon={<PeopleIcon sx={{
-                                          fontSize: {
-                                              xs: "large",
-                                              md: 40
-                                          }
-                                      }}/>}/>
+                    <AppWidgetSummary title="Students" total={`${users.students ? users?.students : 0}`} color="warning"
+                                      icon={<PeopleIcon />}/>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Users" total={`${users.count}`} color="error" icon={<PeopleIcon sx={{
-                        fontSize: {
-                            xs: "medium",
-                            sm: "large",
-                            md: 40
-                        }
-                    }}/>}/>
+                    <AppWidgetSummary title="Users" total={`${users.count ? users.count : 0}`} color="error" icon={<PeopleIcon />}/>
                 </Grid>
             </Grid>
+
+            <AttendancesGraph  attendanceData={attendances?.data}/>
         </Container>
     )
 }
@@ -123,81 +93,3 @@ export default AdminTrainerDashboard;
 
 
 // last 5 payment
-// all trainer
-// diet control
-// exercise control
-// attendance control
-//
-// paid payment
-// unpaid payment
-
-//
-// <Grid container spacing={4}>
-//     <Grid item xs={12} md={6} sx={{
-//         border: "1px solid #ccc",
-//     }}>
-//         <Typography variant="h6">
-//             Last 5 Payments
-//         </Typography>
-//         <List component="div" aria-label="secondary mailbox folder">
-//             {fees?.fees.filter((fee: Fees) => fee.isPaid).sort((a: Fees, b: Fees) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())?.map((fee: Fees) => (
-//                 <ListItem key={fee.id}>
-//                     <ListItemButton>
-//                         <ListItemText primary={fee.message}/>
-//                     </ListItemButton>
-//                 </ListItem>
-//             ))}
-//         </List>
-//     </Grid>
-//     <Grid item xs={12} md={6}>
-//         <Box sx={{ border: "1px solid #ccc" }}>
-//             <Typography variant="h6">
-//                 Summary
-//             </Typography>
-//             <Typography>
-//                 Completed Amount: $5000
-//             </Typography>
-//             <Typography>
-//                 Unpaid Payments: $2000
-//             </Typography>
-//         </Box>
-//     </Grid>
-//     <Grid item xs={12} sm={6} md={3} sx={{
-//         border: "1px solid #ccc",
-//     }}>
-//         <Typography variant={'h6'}>
-//             Active Users {users?.onlineUsers}
-//         </Typography>
-//
-//     </Grid>
-//
-//     <Grid item xs={12} sm={6} md={3} sx={{
-//         border: "1px solid #ccc",
-//     }}>
-//
-//         <Typography variant={'h6'}>
-//             All Users {users?.count}
-//         </Typography>
-//
-//     </Grid>
-//     <Grid item xs={12} sm={6} md={3} sx={{
-//         border: "1px solid #ccc",
-//     }}>
-//
-//         <Typography variant={'h6'}>
-//             Students {users?.students}
-//         </Typography>
-//
-//     </Grid>
-//     <Grid item xs={12} sm={6} md={3} sx={{
-//         border: "1px solid #ccc",
-//     }}>
-//
-//         <Typography variant={'h6'}>
-//             Trainers {users?.trainers}
-//         </Typography>
-//     </Grid>
-//     <Grid item xs={12} md={6}>
-//
-//     </Grid>
-// </Grid>

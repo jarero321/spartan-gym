@@ -1,10 +1,13 @@
 "use client"
-import {Box, Select, Typography, Container, MenuItem, Grid} from "@mui/material"
-import {User} from "@prisma/client";
 import useSWR from "swr";
-import axios from "axios";
-import {handleActiveStatus} from "@/utils";
 import React from "react";
+import axios from "axios";
+import {User} from "@prisma/client";
+import {handleActiveStatus} from "@/utils";
+import Loader from "@/app/components/Loader/Loader";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import {Box, Select, Typography, Container, MenuItem, Grid} from "@mui/material"
+import AppWidgetSummary from "@/app/components/AppWidgetSummary/AppWidgetSummary";
 
 
 const fetcher = async (...args: Parameters<typeof axios>) => {
@@ -12,6 +15,12 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
     return res.data;
 }
 const UserDashboard = ({user} : {user: User}) => {
+    const { data: fees, isLoading: feesLoading } = useSWR("/api/user/fees", fetcher)
+
+    if(feesLoading) {
+        return <Loader />
+    }
+
     return <Container maxWidth="xl">
         <Box sx={{
             display: 'flex',
@@ -39,6 +48,17 @@ const UserDashboard = ({user} : {user: User}) => {
                 </MenuItem>
             </Select>
         </Box>
+        <Grid container spacing={3}>
+                <Grid item xs={12} sm={6} md={3}>
+                    <AppWidgetSummary title="Paid" total={"$" + fees.paid ? fees.paid : 0} color={'primary'}
+                                      icon={<AttachMoneyIcon />}/>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                    <AppWidgetSummary title="Unpaid" total={"$" + fees.unpaid ? fees.unpaid : 0} color="warning"
+                                      icon={<AttachMoneyIcon />}/>
+                </Grid>
+        </Grid>
     </Container>
 }
 

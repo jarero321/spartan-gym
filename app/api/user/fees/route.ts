@@ -32,10 +32,22 @@ export async function GET() {
         }
       );
     }
+    let paid = 0;
+    let unpaid = 0
+
+    fees.forEach((fee) => {
+      if (fee.isPaid) {
+        paid += fee.amount
+      } else {
+        unpaid += fee.amount
+      }
+    })
 
     return NextResponse.json(
       {
         fees,
+        paid,
+        unpaid
       },
       {
         status: 200,

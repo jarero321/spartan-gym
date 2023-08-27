@@ -37,6 +37,7 @@ import Loading from "../loading";
 import {Notification} from "@prisma/client";
 import toast from "react-hot-toast";
 import {Select} from "@mui/material";
+import {handleActiveStatus} from "@/utils";
 
 const drawerWidth: number = 240;
 
@@ -146,6 +147,11 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
         setShowNotifications(null);
     };
 
+    const handleLogout = async () => {
+        await signOut();
+        await handleActiveStatus("offline")
+    }
+
 
     if (isLoading) {
         return <Loading/>;
@@ -180,7 +186,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                             noWrap
                             sx={{flexGrow: 1}}
                         >
-                           Gym Management System
+                           Gym
                         </Typography>
                         <Box>
                             <Tooltip title="Notifications">
@@ -289,7 +295,7 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
 
                                 <Divider/>
 
-                                <MenuItem onClick={() => signOut()}>
+                                <MenuItem onClick={handleLogout}>
                                     <ListItemIcon>
                                         <Logout fontSize="small"/>
                                     </ListItemIcon>
