@@ -21,6 +21,8 @@ const SuccessPage: React.FC = () => {
 
   const { data, isLoading, error } = useSWR(URL, fetcher);
 
+  console.log(data)
+
   if (error) {
     return (
       <Empty

@@ -32,7 +32,7 @@ const UserDashboard = ({user} : {user: User}) => {
             <Typography variant="h4">
                 Hi, Welcome back <br/>
                 <Box component={'span'}>
-                    {user.name}
+                    {user?.name}
                 </Box>
             </Typography>
             <Select
@@ -50,12 +50,12 @@ const UserDashboard = ({user} : {user: User}) => {
         </Box>
         <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Paid" total={"$" + fees.paid ? fees.paid : 0} color={'primary'}
+                    <AppWidgetSummary title="Paid" total={"$" + fees?.paid ? fees?.paid : 0} color={'primary'}
                                       icon={<AttachMoneyIcon />}/>
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Unpaid" total={"$" + fees.unpaid ? fees.unpaid : 0} color="warning"
+                    <AppWidgetSummary title="Unpaid" total={"$" + fees?.unpaid ? fees?.unpaid : 0} color="warning"
                                       icon={<AttachMoneyIcon />}/>
                 </Grid>
         </Grid>
