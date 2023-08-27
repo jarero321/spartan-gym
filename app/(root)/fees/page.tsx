@@ -147,10 +147,8 @@ const FeesPage: React.FC = () => {
         },
       });
 
-      console.log("reminder",res)
-
       if (res.status === 201) {
-        toast.success("Notification Sent Succesfully");
+        toast.success("Notification Sent Successfully");
       }
     } catch (err: Error | any) {
       console.log(err);

@@ -9,10 +9,11 @@ import MenuItem from "@mui/material/MenuItem";
 import PeopleIcon from '@mui/icons-material/People';
 import Loader from "@/app/components/Loader/Loader";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import {Grid, Typography, Container, Select, Box, Paper} from "@mui/material";
-import AppWidgetSummary from "@/app/components/AppWidgetSummary/AppWidgetSummary";
-import AttendancesGraph from "@/app/components/AdminTrainerDashboard/AttendancesGraph";
 import TodayGraph from "@/app/components/AdminTrainerDashboard/TodayGraph";
+import AppWidgetSummary from "@/app/components/AppWidgetSummary/AppWidgetSummary";
+import {Grid, Typography, Container, Select, Box, Paper, Divider} from "@mui/material";
+import AttendancesGraph from "@/app/components/AdminTrainerDashboard/AttendancesGraph";
+
 
 
 const fetcher = async (...args: Parameters<typeof axios>) => {
@@ -25,6 +26,9 @@ const AdminTrainerDashboard = ({user}: { user: User }) => {
     const {data: users, isLoading: usersLoading, mutate} = useSWR("/api/users", fetcher)
     const {data: attendances, isLoading: attendancesLoading} = useSWR("/api/attendance", fetcher);
 
+
+
+    console.log(user)
     if (feesLoading || usersLoading || attendancesLoading) {
         return <Loader/>
     }
@@ -58,6 +62,8 @@ const AdminTrainerDashboard = ({user}: { user: User }) => {
                 </Select>
             </Box>
 
+            <Divider sx={{mb: 5, mt: 5}}/>
+
             <Grid container spacing={3}>
                 {user.role === "admin" && <>
                     <Grid item xs={12} sm={6} md={3}>
@@ -88,10 +94,10 @@ const AdminTrainerDashboard = ({user}: { user: User }) => {
                 </Grid>
             </Grid>
 
-            <Grid container spacing={4} sx={{
-                mt: 5
-            }}>
-                <Grid xs={12} sm={6} md={9} lg={9} xl={9}>
+            <Divider sx={{mb: 5, mt: 5}}/>
+
+            <Grid container spacing={4}>
+                <Grid item xs={12} sm={6} md={9} lg={9} xl={9}>
                     <Paper
                         sx={{
                             p: 2,
@@ -104,7 +110,7 @@ const AdminTrainerDashboard = ({user}: { user: User }) => {
                         <AttendancesGraph attendanceData={attendances?.data}/>
                     </Paper>
                 </Grid>
-                <Grid xs={12} sm={6} md={3} lg={3} xl={3}>
+                <Grid item xs={12} sm={6} md={3} lg={3} xl={3}>
                     <Paper sx={{
                         p: 2,
                         display: 'flex',

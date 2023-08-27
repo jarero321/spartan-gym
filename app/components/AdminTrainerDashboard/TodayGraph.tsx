@@ -7,8 +7,8 @@ const TodayGraph = ({attendanceData}: {
     attendanceData: Attendance[]
 }) => {
     const data = [
-        {name: 'Present', value: attendanceData.filter((attendance: Attendance) => attendance?.isPresent && attendance.date === new Date().toISOString().split("T")[0]).length},
-        {name: 'Absent', value: attendanceData.filter((attendance: Attendance) => !attendance?.isPresent && attendance.date === new Date().toISOString().split("T")[0]).length},
+        {name: 'Present', value: attendanceData?.filter((attendance: Attendance) => attendance?.isPresent && attendance.date === new Date().toISOString().split("T")[0]).length},
+        {name: 'Absent', value: attendanceData?.filter((attendance: Attendance) => !attendance?.isPresent && attendance.date === new Date().toISOString().split("T")[0]).length},
     ];
 
     const COLORS = ['#1ABA00', '#ff1e1e'];
@@ -21,7 +21,6 @@ const TodayGraph = ({attendanceData}: {
                                        innerRadius,
                                        outerRadius,
                                        percent,
-                                       index,
                                    }: any) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -57,7 +56,7 @@ const TodayGraph = ({attendanceData}: {
                         fill="#8884d8"
                         dataKey="value"
                     >
-                        {data.map((entry, index) => (
+                        {data?.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}/>
                         ))}
                     </Pie>
