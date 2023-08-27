@@ -42,7 +42,7 @@ const TodayGraph = ({attendanceData}: {
     return (
         <React.Fragment>
             <Typography variant="h6" sx={{mb: 2}}>
-                Today's Attendance
+                Today'&#39;'s Attendance
             </Typography>
             <ResponsiveContainer>
                 <PieChart>
