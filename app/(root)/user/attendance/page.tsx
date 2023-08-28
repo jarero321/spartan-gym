@@ -49,6 +49,7 @@ const MyAttendancePage = () => {
                 await mutate("/api/user/attendance");
             }
         } catch (err: Error | any) {
+            console.log(err)
             setAttendanceError(err.response.data.error);
         } finally {
             setAttendanceLoading(false);
