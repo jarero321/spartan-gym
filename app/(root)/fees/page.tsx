@@ -80,7 +80,7 @@ const FeesPage: React.FC = () => {
   const [orderBy, setOrderBy] = useState<keyof Fees>("email"); // Field to sort by (default is "name")
   const [order, setOrder] = useState<"asc" | "desc">("asc"); // Sorting order (default is "asc")
 
-  const { data, isLoading } = useSWR("/api/fees", fetcher);
+  const { data, isLoading, mutate } = useSWR("/api/fees", fetcher);
 
   const fees = data?.fees;
   const sessionUser = userSession?.user as SessionUser;
@@ -117,6 +117,7 @@ const FeesPage: React.FC = () => {
       if (res.status === 201) {
         reset();
         toast.success(res.data.message);
+        await mutate("/api/fees");
       }
     } catch (err: Error | any) {
       toast.error(err.response.data.error);
