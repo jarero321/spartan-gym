@@ -129,20 +129,13 @@ export async function PATCH() {
       return NextResponse.json(
         {
           error: "You are not allowed to mark attendance at this time",
-          fTimeHour,
-          fTimeMin,
-          tTimeHour,
-          tTimeMin,
-          toDayHour,
-          toDayMin,
-          todayGetHours: {
-            todayGetHours: today.getHours(),
-            todayGetHourIso: today.toISOString().split("T")[1],
-          },
-            todayGetMinutes: {
-            todayGetMinutes: today.getMinutes(),
-            todayGetMinutesIso: today.toISOString().split("T")[1],
-            }
+          utcTime: {
+            todayUtc: today.toUTCString(),
+            todayIso: today.toISOString(),
+            todayString: today.toString(),
+            todayLocale: today.toLocaleString(),
+            todayLocaleDate: today.toLocaleDateString(),
+          }
         },
         {
           status: 400,
