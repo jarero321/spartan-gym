@@ -1,4 +1,3 @@
-import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getSession } from "../../users/route";
@@ -82,7 +81,6 @@ export async function GET(req: NextRequest) {
       );
     }
   } catch (err: Error | any) {
-    console.log(err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

@@ -41,6 +41,5 @@ export const handleActiveStatus = async (router: AppRouterInstance,status: strin
             mutate && await mutate("/api/users")
         }
     } catch (err: Error | any) {
-        console.log(err)
     }
 }

@@ -40,7 +40,6 @@ export async function GET(req: Request) {
       }
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json({ error: error, status: false });
   }
 }

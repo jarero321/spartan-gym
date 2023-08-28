@@ -129,7 +129,6 @@ const AssignExercisePage: React.FC = () => {
         toast.success(res.data.message);
       }
     } catch (err: Error | any) {
-      console.log(err);
       toast.error(err.response.data.error);
     } finally {
       setAssignLoading(false);

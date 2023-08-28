@@ -112,7 +112,6 @@ const FeesPage: React.FC = () => {
         },
       });
 
-      console.log(res)
 
       if (res.status === 201) {
         reset();
@@ -152,7 +151,6 @@ const FeesPage: React.FC = () => {
         toast.success("Notification Sent Successfully");
       }
     } catch (err: Error | any) {
-      console.log(err);
       toast.error(err.response.data.error);
     } finally {
       setReminderId("");

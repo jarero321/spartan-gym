@@ -64,7 +64,6 @@ const ManageUser: React.FC = () => {
           await mutate(`/api/users?page=${currentPage}&limit=${rowsPerPage}`)
         }
       } catch (err: Error | any) {
-        console.log(err)
       }
   }
 

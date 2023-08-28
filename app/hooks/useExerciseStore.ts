@@ -19,7 +19,6 @@ const useExerciseStore = create<ExercisesStore>((set) => ({
       );
       set({ exercises: data.data});
     } catch (error) {
-      console.log(error);
     } finally {
       set({loading: false})
     }

@@ -136,7 +136,6 @@ export async function GET() {
       }
     );
   } catch (err: Error | any) {
-    console.log(err);
     return NextResponse.error();
   }
 }

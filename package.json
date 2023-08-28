@@ -27,6 +27,8 @@
     "bcrypt": "^5.1.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "next": "13.4.12",
     "next-auth": "^4.22.3",
     "next-cloudinary": "^4.16.3",

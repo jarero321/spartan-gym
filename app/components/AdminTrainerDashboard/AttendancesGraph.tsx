@@ -31,7 +31,7 @@ const AttendanceGraph = ({attendanceData}: {
     return (
         <React.Fragment>
             <Typography variant="h6" sx={{mb: 2}}>
-                Attendance
+                Attendance Graph
             </Typography>
             <ResponsiveContainer>
                 <BarChart data={chartData}>

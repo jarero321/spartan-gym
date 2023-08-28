@@ -134,7 +134,6 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                 await mutate("/api/notification")
             }
         } catch (error) {
-            console.log(error);
         }
     };
 

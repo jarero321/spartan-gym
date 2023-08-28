@@ -17,7 +17,6 @@ const useTrainersStore = create<TrainersStore>((set) => ({
       const { data } = await axios.get<{ data: User[] }>("/api/trainers");
       set({ trainers: data.data, loading: false });
     } catch (error) {
-      console.log(error);
       set({ loading: false });
     }
   },

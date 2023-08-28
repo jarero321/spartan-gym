@@ -17,7 +17,6 @@ const useStudentsStore = create<StudentsStore>((set) => ({
       const { data } = await axios.get<{ data: User[] }>("/api/students");
       set({ students: data.data, loading: false });
     } catch (error) {
-      console.log(error);
       set({ loading: false });
     }
   },

@@ -94,8 +94,6 @@ const MyFeesPage = () => {
         year: fee.year,
       });
 
-      console.log(res.data);
-
       if (res.data) {
         toast.loading("Redirecting to Stripe Checkout...");
 
@@ -104,7 +102,6 @@ const MyFeesPage = () => {
         });
       }
     } catch (err) {
-      console.log(err);
     } finally {
       setLoadingPayment(false);
       setPaymentId("");

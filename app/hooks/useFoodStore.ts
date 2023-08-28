@@ -19,7 +19,6 @@ const useFoodStore = create<FoodStore>((set) => ({
       );
       set({ foods: data.data });
     } catch (error) {
-      console.log(error);
     } finally {
       set({ loading: false });
     }

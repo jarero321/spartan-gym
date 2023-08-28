@@ -31,7 +31,6 @@ export default function NotificationsPage() {
                 await mutate("/api/notification")
             }
         } catch (error) {
-            console.log(error);
         } finally {
             setNotifyId('')
             setNotifyLoading(false)

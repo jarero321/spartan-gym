@@ -31,11 +31,6 @@ const AdminTrainerDashboard = ({user}: { user: User }) => {
 
     const router = useRouter()
 
-
-    console.time("AdminTrainerDashboard")
-    console.log(user)
-    console.timeEnd("AdminTrainerDashboard")
-
     if (feesLoading || usersLoading || attendancesLoading) {
         return <Loader/>
     }
