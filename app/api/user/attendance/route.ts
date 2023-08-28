@@ -134,7 +134,9 @@ export async function PATCH() {
           tTimeHour,
           tTimeMin,
           toDayHour,
-          toDayMin
+          toDayMin,
+          todayGetHours: today.getHours(),
+            todayGetMinutes: today.getMinutes(),
         },
         {
           status: 400,
