@@ -91,9 +91,9 @@ export async function PATCH() {
 
     const today = new Date();
 
-    const toDayHour = Number(today.getHours());
+    const toDayHour = Number(today.getHours()) + 6
 
-    const toDayMin = Number(today.getMinutes());
+    const toDayMin = Number(today.getMinutes())
 
     const attendanceExist = await prisma.attendance.findFirst({
       where: {
@@ -129,13 +129,6 @@ export async function PATCH() {
       return NextResponse.json(
         {
           error: "You are not allowed to mark attendance at this time",
-          utcTime: {
-            todayUtc: today.toUTCString(),
-            todayIso: today.toISOString(),
-            todayString: today.toString(),
-            todayLocale: today.toLocaleString(),
-            todayLocaleDate: today.toLocaleDateString(),
-          }
         },
         {
           status: 400,
