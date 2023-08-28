@@ -51,7 +51,7 @@ export default function NotificationsPage() {
 
     return (
         <Box>
-            {notifications.length > 0 ? (
+            {notifications?.length > 0 ? (
                 <TableContainer component={Paper}>
                     <Table aria-label={'simple table'}>
                         <TableHead>
@@ -89,7 +89,7 @@ export default function NotificationsPage() {
                                 }</TableCell>
                                 <TableCell>
                                     {
-                                        new Date(notification.createdAt).toLocaleString()
+                                        new Date(notification?.createdAt).toLocaleString()
                                     }
                                 </TableCell>
                                 <TableCell>
