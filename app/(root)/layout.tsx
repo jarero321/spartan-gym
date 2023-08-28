@@ -7,25 +7,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import {createTheme, styled, ThemeProvider} from "@mui/material/styles";
 import MuiAppBar, {AppBarProps as MuiAppBarProps} from "@mui/material/AppBar";
 
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import Menu from "@mui/material/Menu";
-import Badge from "@mui/material/Badge";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import Divider from "@mui/material/Divider";
-import Toolbar from "@mui/material/Toolbar";
-import MuiDrawer from "@mui/material/Drawer";
-import MenuItem from "@mui/material/MenuItem";
 
 import Logout from "@mui/icons-material/Logout";
 import {signOut, useSession} from "next-auth/react";
 
+import MuiDrawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
@@ -35,9 +22,20 @@ import useSWR from "swr";
 import Loading from "../loading";
 
 import {Notification} from "@prisma/client";
-import toast from "react-hot-toast";
-import {Select} from "@mui/material";
+import {Container,
+    Typography,
+    IconButton,
+    ListItemIcon, Box,
+    List,
+    Menu,
+    Badge,
+    Avatar,
+    Tooltip,
+    Divider,
+    Toolbar,
+    MenuItem} from "@mui/material";
 import {handleActiveStatus} from "@/utils";
+import {useRouter} from "next/navigation";
 
 const drawerWidth: number = 240;
 
@@ -102,6 +100,7 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
 
 const DashboardLayout = ({children}: DashboardLayoutProps) => {
     const {data} = useSession();
+    const router = useRouter()
 
     const {
         data: notifyData,
@@ -148,8 +147,8 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
     };
 
     const handleLogout = async () => {
+        await handleActiveStatus(router, "offline")
         await signOut();
-        await handleActiveStatus("offline")
     }
 
 

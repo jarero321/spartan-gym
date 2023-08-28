@@ -13,6 +13,7 @@ import TodayGraph from "@/app/components/AdminTrainerDashboard/TodayGraph";
 import AppWidgetSummary from "@/app/components/AppWidgetSummary/AppWidgetSummary";
 import {Grid, Typography, Container, Select, Box, Paper, Divider} from "@mui/material";
 import AttendancesGraph from "@/app/components/AdminTrainerDashboard/AttendancesGraph";
+import {useRouter} from "next/navigation";
 
 
 
@@ -23,12 +24,18 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
 
 const AdminTrainerDashboard = ({user}: { user: User }) => {
     const {data: fees, isLoading: feesLoading} = useSWR("/api/fees", fetcher)
-    const {data: users, isLoading: usersLoading, mutate} = useSWR("/api/users", fetcher)
+    const {data: users, isLoading: usersLoading, mutate} = useSWR("/api/users", fetcher, {
+        refreshInterval: 10000
+    })
     const {data: attendances, isLoading: attendancesLoading} = useSWR("/api/attendance", fetcher);
 
+    const router = useRouter()
 
 
+    console.time("AdminTrainerDashboard")
     console.log(user)
+    console.timeEnd("AdminTrainerDashboard")
+
     if (feesLoading || usersLoading || attendancesLoading) {
         return <Loader/>
     }
@@ -50,7 +57,7 @@ const AdminTrainerDashboard = ({user}: { user: User }) => {
                 </Typography>
                 <Select
                     value={user.isActive ? "online" : "offline"}
-                    onChange={(event) => handleActiveStatus(event.target.value, mutate)}
+                    onChange={(event) => handleActiveStatus(router, event.target.value, mutate)}
                     displayEmpty
                 >
                     <MenuItem value={"online"}>

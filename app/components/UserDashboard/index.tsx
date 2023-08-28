@@ -9,6 +9,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import AppWidgetSummary from "@/app/components/AppWidgetSummary/AppWidgetSummary";
 import AttendanceGraph from "@/app/components/AdminTrainerDashboard/AttendancesGraph";
 import {Box, Select, Typography, Container, MenuItem, Grid, Paper, Divider} from "@mui/material"
+import {useRouter} from "next/navigation";
 
 
 const fetcher = async (...args: Parameters<typeof axios>) => {
@@ -20,8 +21,8 @@ const UserDashboard = ({user}: {
 }) => {
     const {data: fees, isLoading: feesLoading} = useSWR("/api/user/fees", fetcher)
     const {data: attendances, isLoading: attendanceLoading} = useSWR("/api/user/attendance", fetcher)
+    const router = useRouter()
 
-    console.log(user)
 
     if (feesLoading || attendanceLoading) {
         return <Loader/>
@@ -43,7 +44,7 @@ const UserDashboard = ({user}: {
             </Typography>
             <Select
                 value={user.isActive ? "online" : "offline"}
-                onChange={(event) => handleActiveStatus(event.target.value)}
+                onChange={(event) => handleActiveStatus(router, event.target.value)}
                 displayEmpty
             >
                 <MenuItem value={"online"}>

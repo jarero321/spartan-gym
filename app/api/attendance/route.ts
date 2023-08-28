@@ -2,7 +2,7 @@ import {NextResponse} from "next/server";
 import {SessionUser} from "@/types";
 import {getSession} from "@/app/api/users/route";
 import prisma from "@/app/libs/prismadb";
-import {Attendance, User} from "@prisma/client";
+import {User} from "@prisma/client";
 
 export async function POST(req: Request) {
     try {

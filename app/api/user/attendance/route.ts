@@ -129,6 +129,12 @@ export async function PATCH() {
       return NextResponse.json(
         {
           error: "You are not allowed to mark attendance at this time",
+          fTimeHour,
+          fTimeMin,
+          tTimeHour,
+          tTimeMin,
+          toDayHour,
+          toDayMin
         },
         {
           status: 400,

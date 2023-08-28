@@ -5,6 +5,8 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import ClientOnly from "@/app/components/ClientOnly/page";
 import Empty from "@/app/components/Empty";
 
+export const revalidate = 60
+
 export default async function DashboardPage() {
 
   const user = await getCurrentUser()
@@ -14,7 +16,6 @@ export default async function DashboardPage() {
             <Empty title={'Loading...'} subtitle={'...'} />
         </ClientOnly>
     }
-
 
   return (
     <ClientOnly>

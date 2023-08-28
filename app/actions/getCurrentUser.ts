@@ -3,8 +3,6 @@ import { options } from "./../api/auth/[...nextauth]/options";
 
 import prisma from "@/app/libs/prismadb";
 
-export const revalidate = 60
-
 export async function getSession() {
   return await getServerSession(options);
 }
@@ -26,6 +24,8 @@ export default async function getCurrentUser() {
     if (!currentUser) {
       return null;
     }
+
+    currentUser.hashedPassword = undefined as unknown as string
 
     return currentUser;
   } catch (error: any) {
