@@ -120,6 +120,8 @@ export async function PATCH() {
     const tTimeHour = Number(attendanceExist.toTime.toString().split(":")[0]);
     const tTimeMin = Number(attendanceExist.toTime.toString().split(":")[1]);
 
+
+
     if (
       toDayHour < fTimeHour ||
       (toDayHour === fTimeHour && toDayMin < fTimeMin) ||
@@ -129,6 +131,10 @@ export async function PATCH() {
       return NextResponse.json(
         {
           error: "You are not allowed to mark attendance at this time",
+          fTimeHour, fTimeMin,
+          tTimeHour, tTimeMin,
+          toDayHour,
+          toDayMin
         },
         {
           status: 400,
@@ -148,6 +154,10 @@ export async function PATCH() {
     return NextResponse.json(
       {
         data: attendance,
+        fTimeHour, fTimeMin,
+        tTimeHour, tTimeMin,
+        toDayHour,
+        toDayMin
       },
       {
         status: 200,
