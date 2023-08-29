@@ -104,7 +104,7 @@ export default function ProfilePage() {
                                     </TableRow>
 
                                     <TableRow>
-                                        <TableCell>Age</TableCell>
+                                        <TableCell>Height</TableCell>
                                         <TableCell>{user?.height ?? 100} cm</TableCell>
                                     </TableRow>
 

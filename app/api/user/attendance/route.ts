@@ -91,7 +91,7 @@ export async function PATCH() {
 
     const today = new Date();
 
-    const toDayHour = Number(today.getHours()) + 6
+    const toDayHour = Number(today.getHours())
 
     const toDayMin = Number(today.getMinutes())
 
