@@ -255,6 +255,20 @@ export async function PATCH(req: Request) {
                 status: 400
             })
         } else {
+            if (body.email) {
+                return NextResponse.json({
+                    error: "You can't update the email"
+                }, {
+                    status: 400
+                })
+            } else if (body.role) {
+                return NextResponse.json({
+                    error: "You can't update the role",
+                } , {
+                    status: 400
+                })
+            }
+
             const user = await prisma.user.findUnique({
                 where: {
                     id: sessionUser.id
@@ -270,15 +284,21 @@ export async function PATCH(req: Request) {
             }
 
 
+            let hashedPassword = user.hashedPassword;
+
+            if (body.password) {
+                hashedPassword = await bcrypt.hash(body.password, 12);
+            }
+
             const userUpdate = await prisma.user.update({
                 where: {
                     id: sessionUser.id
                 },
                 data: {
-                    ...body
+                    ...body,
+                    hashedPassword
                 }
             })
-
 
             if (!userUpdate) {
                 return NextResponse.json({
