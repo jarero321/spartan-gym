@@ -24,6 +24,14 @@ export default withAuth(
         if (adminOrTrainer) {
             return NextResponse.rewrite(new URL("/unauthorized", request.url));
         }
+
+        const admin = request.nextauth.token?.role !== "admin" && request.nextUrl.pathname.startsWith("/manage-user");
+
+        if (admin) {
+            return NextResponse.rewrite(new URL("/unauthorized", request.url));
+        }
+
+
     },
     {
         callbacks: {

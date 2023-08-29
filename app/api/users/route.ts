@@ -201,7 +201,7 @@ export async function PATCH(req: Request) {
         const body = await req.json();
 
 
-        if (sessionUser?.role === 'admin' && body.trainerId && body.userId) {
+        if (sessionUser?.role === 'admin' && body.trainerId && body.userId && body.trainerId !== body.userId) {
 
             const user = await prisma.user.findUnique({
                 where: {
@@ -242,50 +242,62 @@ export async function PATCH(req: Request) {
             }, {
                 status: 201
             })
-        }
-
-        const user = await prisma.user.findUnique({
-            where: {
-                id: sessionUser.id
-            }
-        })
-
-        if (!user) {
+        } else if (sessionUser?.role === 'trainer' && body.trainerId && body.userId && body.trainerId !== body.userId) {
             return NextResponse.json({
-                error: "User not found"
+                error: "You can't update the trainer"
             }, {
                 status: 400
             })
-        }
-
-
-        const userUpdate = await prisma.user.update({
-            where: {
-                id: sessionUser.id
-            },
-            data: {
-                ...body
-            }
-        })
-
-
-        if (!userUpdate) {
+        } else if (sessionUser?.role === 'user' && body.trainerId && body.userId && body.trainerId !== body.userId) {
             return NextResponse.json({
-                error: "Updating failed"
+                error: "You can't update the trainer"
             }, {
                 status: 400
             })
-        }
+        } else {
+            const user = await prisma.user.findUnique({
+                where: {
+                    id: sessionUser.id
+                }
+            })
 
-        if (body.isActive) {
-            revalidatePath("/")
-        }
+            if (!user) {
+                return NextResponse.json({
+                    error: "User not found"
+                }, {
+                    status: 400
+                })
+            }
 
-        return NextResponse.json({
-            message: "Updated successfully"
-        }, {
-            status: 200
-        })
+
+            const userUpdate = await prisma.user.update({
+                where: {
+                    id: sessionUser.id
+                },
+                data: {
+                    ...body
+                }
+            })
+
+
+            if (!userUpdate) {
+                return NextResponse.json({
+                    error: "Updating failed"
+                }, {
+                    status: 400
+                })
+            }
+
+            if (body.isActive) {
+                revalidatePath("/")
+            }
+
+            return NextResponse.json({
+                message: "Updated successfully"
+            }, {
+                status: 200
+            })
+        }
     } catch (err: Error | any) {
         return NextResponse.json({
             error: "Something went wrong"
