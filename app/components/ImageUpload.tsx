@@ -4,7 +4,7 @@ import { CldUploadWidget } from "next-cloudinary"; // Cloudinary upload widget f
 import Image from "next/image"; // Next.js Image component
 import React, { useCallback } from "react"; // React and useCallback hook
 import CloudUploadIcon from "@mui/icons-material/CloudUpload"; // Material-UI icon for cloud upload
-import { Box, Typography } from "@mui/material"; // Material-UI components for layout
+import { Box, Typography } from "@mui/material";
 
 // Declare global variable 'cloudinary' (for type declaration)
 declare global {
@@ -43,7 +43,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, setValue }) => {
       {({ open }) => {
         return (
           // Div container for the image upload area
-          <div
+          <Box
             style={{
               position: "relative",
               cursor: "pointer",
@@ -51,7 +51,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, setValue }) => {
               border: "dashed",
               borderWidth: 2,
               borderColor: "rgba(212, 212, 212, 1)",
-              padding: value ? "20px" : "10px",
+              padding: value ? "100px" : "10px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -87,7 +87,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ value, setValue }) => {
                 />
               </Box>
             )}
-          </div>
+          </Box>
         );
       }}
     </CldUploadWidget>
