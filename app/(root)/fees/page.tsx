@@ -137,7 +137,7 @@ const FeesPage: React.FC = () => {
         userEmail: email,
         senderId: sessionUser.id,
         type: "reminder",
-        notifcation_text: `You have not paid your fees for ${month} ${year}. Please pay your fees as soon as possible.`,
+        notification_text: `You have not paid your fees for ${month} ${year}. Please pay your fees as soon as possible.`,
         pathName: "/user/fees",
       };
 

@@ -46,7 +46,6 @@ export default function NotificationsPage() {
     }
 
     const notifications = data?.data?.data
-    // const unRead = data?.data?.unRead
 
     return (
         <Box>
