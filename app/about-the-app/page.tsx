@@ -2,22 +2,20 @@
 import {Container, Box} from "@mui/material/";
 import PageDetails from "@/app/components/PageDetails";
 import {details} from "@/utils/detailsData";
-import Header from "@/app/components/AboutTheApp/Header";
-import StackAndTools from "@/app/components/AboutTheApp/StackAndTools";
-import PackageJson from "@/app/components/AboutTheApp/PackageJson";
+import Hero from "@/app/components/AboutTheApp/Hero";
+import Stack from "@/app/components/AboutTheApp/Stack";
 
 
 const AboutTheAppPage = () => {
     return <Container maxWidth={'xl'} component={'main'}>
-        <Header/>
-        <StackAndTools/>
-        <PackageJson/>
+        <Hero/>
+        <Stack/>
         <Box component={'section'} sx={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            my: 4
+            mb: 4
         }}>
 
             {

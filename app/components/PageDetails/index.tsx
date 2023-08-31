@@ -35,7 +35,6 @@ const PageDetails = ({
                     md: flexReverse ? "row-reverse" : "row"
                 },
                 background: "rgba(0,0,0, 0.02)",
-                borderRadius: "8px",
                 transition : "all 0.3s ease-in-out",
                 cursor: "pointer",
                 "&:hover": {
