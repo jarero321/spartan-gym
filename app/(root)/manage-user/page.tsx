@@ -91,7 +91,7 @@ const ManageUser: React.FC = () => {
   // Memoized sorted data based on sorting criteria
   const sortedData = useMemo(() => {
     if (data && data?.data) {
-      return data?.data?.filter((user: User) => user.role === "user").sort((a: User, b: User) => {
+      return data?.data?.filter((user: User) => user.role !== "admin").sort((a: User, b: User) => {
         const valueA = a[orderBy]; // Value of the field to sort by for user a
         const valueB = b[orderBy]; // Value of the field to sort by for user b
 
@@ -182,7 +182,7 @@ const ManageUser: React.FC = () => {
                 <TableCell>{user?.email}</TableCell>
                 <TableCell>{user?.isActive ? "🟢 Online" : "🔴 Offline"}</TableCell>
                 <TableCell>
-                  <Select
+                  {user?.role === "user" && <Select
                       sx={{
                         width: '100%'
                       }}
@@ -198,7 +198,7 @@ const ManageUser: React.FC = () => {
                           {trainer.name}
                         </MenuItem>
                     ))}
-                  </Select>
+                  </Select>}
                 </TableCell>
                 <TableCell>{user?.role}</TableCell>
                 <TableCell><Button variant={'contained'} color={'error'}>Delete</Button></TableCell>

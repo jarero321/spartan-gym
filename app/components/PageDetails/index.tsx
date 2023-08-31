@@ -8,26 +8,39 @@ interface PageDetailsProps {
     description: string;
     featuredImage: string;
     list_of_features: string[];
+    accessRole: string[];
     flexReverse?: boolean;
 }
 
-const PageDetails = ({title, description, featuredImage, list_of_features, flexReverse}: PageDetailsProps) => {
+const PageDetails = ({
+                         title,
+                         description,
+                         featuredImage,
+                         list_of_features,
+                         accessRole,
+                         flexReverse
+                     }: PageDetailsProps) => {
     return (
         <Box
             padding={2}
             sx={{
                 minHeight: {
                     xs: "100vh",
-                    sm: "80vh",
-                    md: "600px",
+                    md: "80vh",
+                    lg: "600px",
                 },
                 display: "flex",
                 flexDirection: {
                     xs: flexReverse ? 'column-reverse' : 'column',
-                    sm: flexReverse ? "row-reverse" : "row"
+                    md: flexReverse ? "row-reverse" : "row"
                 },
                 background: "rgba(0,0,0, 0.02)",
-                borderRadius: "8px"
+                borderRadius: "8px",
+                transition : "all 0.3s ease-in-out",
+                cursor: "pointer",
+                "&:hover": {
+                    boxShadow: "0 0 20px rgba(0,0,0,0.1)",
+                }
             }}>
             <Box
                 sx={{
@@ -66,10 +79,30 @@ const PageDetails = ({title, description, featuredImage, list_of_features, flexR
                     justifyContent: "start",
                     flex: 1,
                 }}>
-                <Typography variant={'h3'}>{title}</Typography>
+                <Typography component={'h1'} sx={{
+                    fontSize: {
+                        xs: "1.5rem",
+                        sm: "2rem",
+                    }}}
+                >{title}</Typography>
                 <Typography variant={'body1'} sx={{
                     my: 3
                 }}>{description}</Typography>
+
+                <Divider/>
+
+
+                <Typography variant={'h6'} sx={{
+                    mb: 2
+                }}>Access Role : {
+                    accessRole.map((role, index) => (
+                        <Typography key={index} variant={'body2'} component={'span'} sx={{
+                            mx: 1
+                        }}>{role}</Typography>
+                    ))}
+                </Typography>
+
+
                 <Divider/>
                 <List>
                     {list_of_features.map((feature, index) => (
