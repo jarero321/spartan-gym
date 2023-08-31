@@ -16,7 +16,9 @@ const fetcher = async (...args: Parameters <typeof axios>) => {
     return res.data
 }
 export default function NotificationsPage() {
-    const {data, isLoading, error, mutate} = useSWR("/api/notification", fetcher)
+    const {data, isLoading, error, mutate} = useSWR("/api/notification", fetcher, {
+        revalidateOnFocus: false,
+    })
     const router = useRouter()
     const [notifyId, setNotifyId] = useState<string>("")
     const [notifyLoading, setNotifyLoading] = useState<boolean>(false)

@@ -25,7 +25,9 @@ const SuccessPage: React.FC = () => {
 
     const URL = sessionId ? `/api/payment/${sessionId}` : null;
 
-    const {data, isLoading, error} = useSWR(URL, fetcher);
+    const {data, isLoading, error} = useSWR(URL, fetcher, {
+        revalidateOnFocus: false,
+    });
 
     const pdfRef = useRef<HTMLDivElement | null>(null);
 
@@ -53,7 +55,7 @@ const SuccessPage: React.FC = () => {
         return (
             <Empty
                 title="Failed"
-                subtitle={"Something went wrong"}
+                subtitle={error.response.data.error}
             />
         );
     }

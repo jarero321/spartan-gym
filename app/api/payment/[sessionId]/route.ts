@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
     }
 
     if (feeExist.isPaid) {
-      return NextResponse.json({ error: "Fee already paid" }, { status: 200 });
+      return NextResponse.json({ error: "Fee already paid" }, { status: 400 });
     }
 
     if (checkoutSession.payment_status === "paid") {
