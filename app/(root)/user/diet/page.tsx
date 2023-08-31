@@ -134,7 +134,7 @@ const MyDietPage = () => {
         <CssBaseline />
         <Box>
           <Typography component="h1" variant="h2">
-            My Exercise
+            My Diet Sheet
           </Typography>
         </Box>
         <Box
