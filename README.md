@@ -45,6 +45,9 @@ yarn dev
 pnpm dev
 ```
 
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
@@ -58,6 +61,19 @@ pnpm dev
 9. [Fees Pages](#fees-pages)
 10. [Notification Page](#notification-page)
 11. [Deploy](#deploy)
+
+
+
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Introduction <a name="introduction"></a>
 
@@ -311,20 +327,6 @@ Features:
 
 This documentation provides an overview of the various pages, features, and functionalities available in the Gym Management System. For detailed usage instructions and implementation details, please refer to the [GitHub Repository](https://github.com/TajwarSaiyeed/gym-management-system).
 
-
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel <a name="deploy"></a>
 
