@@ -62,7 +62,7 @@ export const options: NextAuthOptions = {
         },
       };
     },
-    jwt: ({ token, user }) => {
+    jwt: ({ token, user, trigger,session }) => {
       if (user) {
         const u = user as unknown as User;
         return {
@@ -71,6 +71,15 @@ export const options: NextAuthOptions = {
           role: u.role,
         };
       }
+
+      if (trigger === "update") {
+        return {
+          ...token,
+          ...session?.user,
+          picture: session.user.image,
+        }
+      }
+
       return token;
     },
   },

@@ -7,7 +7,6 @@ const Hero = () => {
             component="section"
             sx={{
                 backgroundImage: "url('/hero-background.jpg')",
-                backdropFilter: "brightness(0.5) blur(15px)",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 minHeight: "100vh",
@@ -15,7 +14,7 @@ const Hero = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                color: "#000",
+                color: "#bebebe",
                 textAlign: "center",
                 padding: "80px 0",
             }}
@@ -27,11 +26,20 @@ const Hero = () => {
                         xs: "2rem",
                         sm: "3rem",
                         md: "4rem"
-                    }
+                    },
+                    padding: "10px",
+                    color: "#c0f8e9",
+                    backdropFilter: "blur(10px)",
+                    borderRadius: "7px"
                 }}>
                     Welcome to Our Fitness App
                 </Typography>
-                <Typography variant="h5" sx={{marginBottom: 4}}>
+                <Typography variant="h5" sx={{marginBottom: 4,
+                    padding: "10px",
+                    color: "#ded7d7",
+                    backdropFilter: "blur(5px)",
+                    borderRadius: "7px"
+                }}>
                     Achieve Your Fitness Goals with Ease
                 </Typography>
                 <Link href={'/'}>

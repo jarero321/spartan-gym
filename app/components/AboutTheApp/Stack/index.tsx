@@ -45,6 +45,10 @@ const technologies = [
     {
         name: "Next-auth",
         image: "/next-auth.png",
+    },
+    {
+        name: "React-Hot-toast",
+        image: "/react-hot-toast.png"
     }
 
 ];

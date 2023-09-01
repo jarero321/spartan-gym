@@ -295,7 +295,13 @@ export async function PATCH(req: Request) {
                     id: sessionUser.id
                 },
                 data: {
-                    ...body,
+                    name: body.name !== "" ? body.name : user.name,
+                    image: body.image !== "" ? body.image : user.image,
+                    age: body.age !== "" ? body.age : user.age,
+                    weight: body.weight !== "" ? body.weight : user.weight,
+                    height: body.height !== "" ? body.height : user.height,
+                    goal: body.goal !== "" ? body.goal : user.goal,
+                    level: body.level !== "" ? body.level :  user.level,
                     hashedPassword
                 }
             })
@@ -319,8 +325,9 @@ export async function PATCH(req: Request) {
             })
         }
     } catch (err: Error | any) {
+        console.error(err)
         return NextResponse.json({
-            error: "Something went wrong"
+            error: err.message
         }, {
             status: 500
         })

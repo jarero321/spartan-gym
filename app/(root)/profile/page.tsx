@@ -22,7 +22,10 @@ import {TextField} from "@mui/material/";
 import {LoadingButton} from "@mui/lab";
 import {useState} from "react";
 import ImageUpload from "@/app/components/ImageUpload";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload"; // Material-UI icon for cloud upload
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+
 
 const defaultTheme = createTheme();
 
@@ -31,8 +34,10 @@ const fetcher = async (...args: Parameters<typeof axios>) => {
     return res.data
 }
 export default function ProfilePage() {
-    const {data, isLoading, error} = useSWR('/api/user/profile', fetcher);
+    const {update, data: session, status} = useSession()
+    const {data, isLoading, error, mutate} = useSWR('/api/user/profile', fetcher);
     const [updateImage, setUpdateImage] = useState<boolean>(false);
+    const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
 
     const user = data?.data;
 
@@ -40,8 +45,9 @@ export default function ProfilePage() {
         register,
         watch,
         setValue,
-        reset,
+        getValues,
         handleSubmit,
+        reset,
         formState: {errors, isSubmitting},
     } = useForm<FieldValues & { age: number; weight: number; height: number }>({
         defaultValues: {
@@ -66,7 +72,19 @@ export default function ProfilePage() {
                 }
             });
 
-            console.log(res)
+            if(res.status === 200) {
+                toast.success(res.data.message)
+                await mutate('/api/user/profile');
+                await update({
+                   ...session,
+                    user: {
+                        ...session?.user,
+                        image: data.image !== "" ? data.image : user.image
+                    }
+                })
+                reset();
+            }
+
         } catch (err: Error | any) {
             console.log(err)
         }
@@ -78,7 +96,7 @@ export default function ProfilePage() {
         return <Empty title={'Error'} subtitle={"Something went wrong."}/>
     }
 
-    if (isLoading) {
+    if (isLoading || status === 'loading') {
         return <Loader/>
     }
 
@@ -95,7 +113,7 @@ export default function ProfilePage() {
                             position: 'relative',
                         }}>
                             {/* Use Next.js Image component */}
-                            {!user.image ? <Skeleton
+                            {!user?.image ? <Skeleton
                                     animation="wave"
                                     variant="rounded"
                                     sx={{
@@ -108,7 +126,7 @@ export default function ProfilePage() {
                                 /> :
                                 <Image
                                     src={user?.image || ""}
-                                    alt={user.name}
+                                    alt={user?.name}
                                     layout="responsive" // Make the image responsive
                                     width={400}
                                     height={300}
@@ -122,10 +140,10 @@ export default function ProfilePage() {
                                 position: 'absolute',
                                 top: 35,
                                 left: 35,
+                                color: "invert"
                             }}
                                         onClick={() => setUpdateImage(!updateImage)}
-
-                                        color="primary" aria-label="update image">
+                                        aria-label="update image">
 
                                 <CloudUploadIcon/>
                             </IconButton>
@@ -143,40 +161,39 @@ export default function ProfilePage() {
                                 <Table>
                                     <TableBody>
 
-                                        {user.name && <TableRow sx={{textAlign: "center"}}>
+                                        {user?.name && <TableRow sx={{textAlign: "center"}}>
                                             <TableCell>Name</TableCell>
                                             <TableCell>
                                                 <TextField
                                                     size={"small"}
-                                                    required
                                                     fullWidth
                                                     id="name"
                                                     autoComplete="name"
-                                                    defaultValue={user.name}
+                                                    defaultValue={user?.name}
                                                     autoFocus
                                                     {...register("name", {
                                                         required: "This field is required",
                                                     })}
                                                     error={!!errors?.name?.message}
                                                     helperText={
-                                                        errors.name && typeof errors.name.message === "string"
-                                                            ? errors.name.message
+                                                        errors?.name && typeof errors?.name?.message === "string"
+                                                            ? errors?.name?.message
                                                             : null
                                                     }
                                                 />
                                             </TableCell>
                                         </TableRow>}
-                                        {user.email && <TableRow sx={{textAlign: "center"}}>
+                                        {user?.email && <TableRow sx={{textAlign: "center"}}>
                                             <TableCell>Email</TableCell>
                                             <TableCell>
                                                 {user?.email}
                                             </TableCell>
                                         </TableRow>}
-                                        {user.role && <TableRow sx={{textAlign: "center"}}>
+                                        {user?.role && <TableRow sx={{textAlign: "center"}}>
                                             <TableCell>Role</TableCell>
-                                            <TableCell>{user.role}</TableCell>
+                                            <TableCell>{user?.role}</TableCell>
                                         </TableRow>}
-                                        {user.gender && <TableRow sx={{textAlign: "center"}}>
+                                        {user?.gender && <TableRow sx={{textAlign: "center"}}>
                                             <TableCell>Gender</TableCell>
                                             <TableCell>{user?.gender}</TableCell>
                                         </TableRow>}
@@ -189,13 +206,11 @@ export default function ProfilePage() {
                                                     defaultValue={user?.age ?? 18}
                                                     type="number"
                                                     autoComplete="age"
-                                                    required
                                                     fullWidth
                                                     min={18}
                                                     id="age"
                                                     autoFocus
                                                     {...register("age", {
-                                                        required: true,
                                                         min: {
                                                             value: 18,
                                                             message: "Age must be greater than 18",
@@ -207,8 +222,8 @@ export default function ProfilePage() {
                                                         setValueAs: (value) => parseInt(value),
                                                     })}
                                                     helperText={
-                                                        errors.age && typeof errors.age.message === "string"
-                                                            ? errors.age.message
+                                                        errors?.age && typeof errors?.age?.message === "string"
+                                                            ? errors?.age?.message
                                                             : null
                                                     }
                                                     error={!!errors?.age?.message}
@@ -224,12 +239,10 @@ export default function ProfilePage() {
                                                     defaultValue={user?.weight ?? 50}
                                                     type="number"
                                                     autoComplete="weight"
-                                                    required
                                                     fullWidth
                                                     id="weight"
                                                     autoFocus
                                                     {...register("weight", {
-                                                        required: true,
                                                         min: {
                                                             value: 0,
                                                             message: "Weight must be greater than 0",
@@ -241,8 +254,8 @@ export default function ProfilePage() {
                                                         setValueAs: (value) => parseInt(value),
                                                     })}
                                                     helperText={
-                                                        errors.weight && typeof errors.weight.message === "string"
-                                                            ? errors.weight.message
+                                                        errors?.weight && typeof errors?.weight?.message === "string"
+                                                            ? errors?.weight?.message
                                                             : null
                                                     }
                                                     error={!!errors?.weight?.message}
@@ -258,13 +271,11 @@ export default function ProfilePage() {
                                                     defaultValue={user?.height ?? 150}
                                                     type="number"
                                                     autoComplete="height"
-                                                    required
                                                     fullWidth
                                                     min={0}
                                                     label=""
                                                     autoFocus
                                                     {...register("height", {
-                                                        required: true,
                                                         min: {
                                                             value: 0,
                                                             message: "Height must be greater than 0",
@@ -276,8 +287,8 @@ export default function ProfilePage() {
                                                         setValueAs: (value) => parseInt(value),
                                                     })}
                                                     helperText={
-                                                        errors.height && typeof errors.height.message === "string"
-                                                            ? errors.height.message
+                                                        errors?.height && typeof errors?.height?.message === "string"
+                                                            ? errors?.height?.message
                                                             : null
                                                     }
                                                     error={!!errors?.height?.message}
@@ -286,7 +297,7 @@ export default function ProfilePage() {
                                         </TableRow>
 
 
-                                        {user.goal && <TableRow sx={{textAlign: "center"}}>
+                                        {user?.goal && <TableRow sx={{textAlign: "center"}}>
                                             <TableCell>Goal</TableCell>
                                             <TableCell sx={{
                                                 textTransform: "capitalize"
@@ -295,11 +306,8 @@ export default function ProfilePage() {
                                                     size={'small'}
                                                     fullWidth
                                                     autoFocus
-                                                    required
-                                                    defaultValue={user.goal ?? 'gain_weight'}
-                                                    {...register("goal", {
-                                                        required: true,
-                                                    })}
+                                                    defaultValue={user?.goal ?? 'gain_weight'}
+                                                    {...register("goal")}
                                                     displayEmpty
                                                 >
                                                     <MenuItem value="gain_weight">Gain Weight</MenuItem>
@@ -313,7 +321,7 @@ export default function ProfilePage() {
                                                 </Select>
                                             </TableCell>
                                         </TableRow>}
-                                        {user.level && <TableRow sx={{textAlign: "center"}}>
+                                        {user?.level && <TableRow sx={{textAlign: "center"}}>
                                             <TableCell>Level</TableCell>
                                             <TableCell sx={{
                                                 textTransform: "capitalize"
@@ -322,11 +330,8 @@ export default function ProfilePage() {
                                                     size={'small'}
                                                     fullWidth
                                                     autoFocus
-                                                    required
-                                                    defaultValue={user.level ?? "beginner"}
-                                                    {...register("level", {
-                                                        required: true,
-                                                    })}
+                                                    defaultValue={user?.level ?? "beginner"}
+                                                    {...register("level")}
                                                     displayEmpty
                                                 >
                                                     <MenuItem value="beginner">Beginner</MenuItem>
@@ -337,6 +342,85 @@ export default function ProfilePage() {
                                                 </Select>
                                             </TableCell>
                                         </TableRow>}
+                                        <TableRow>
+                                            <TableCell>
+                                                Password
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextField
+                                                    size={'small'}
+                                                    type="password"
+                                                    fullWidth
+                                                    id="password"
+                                                    label="Enter Password"
+                                                    autoFocus
+                                                    error={!!errors?.password?.message}
+                                                    helperText={
+                                                        errors?.password && typeof errors?.password?.message === "string"
+                                                            ? errors?.password?.message
+                                                            : null
+                                                    }
+                                                    {...register("password", {
+                                                        minLength: {
+                                                            value: 8,
+                                                            message: "Password must have at least 8 characters",
+                                                        },
+                                                        maxLength: {
+                                                            value: 20,
+                                                            message: "Password must have at most 20 characters",
+                                                        },
+                                                        pattern: {
+                                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/,
+                                                            message:
+                                                                "Password must contain at least one uppercase letter, one lowercase letter and one number",
+                                                        },
+                                                    })}
+                                                    onChange={(e) => {
+                                                        setValue("password", e.target.value);
+                                                        if (getValues("confirmPassword") === e.target.value) {
+                                                            setPasswordsMatch(true);
+                                                        } else {
+                                                            setPasswordsMatch(false);
+                                                        }
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                Confirm Password
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextField
+                                                    size={'small'}
+                                                    type="password"
+                                                    fullWidth
+                                                    id="confirm-password"
+                                                    label="Re-enter Password"
+                                                    autoFocus
+                                                    error={!!errors?.confirmPassword?.message || !passwordsMatch}
+                                                    helperText={
+                                                        !passwordsMatch
+                                                            ? "Passwords do not match"
+                                                            : (errors?.confirmPassword && typeof errors?.confirmPassword?.message === "string"
+                                                                ? errors?.confirmPassword?.message
+                                                                : null)
+                                                    }
+                                                    {...register("confirmPassword", {
+                                                        validate: (value) =>
+                                                            value === getValues("password") || "Passwords do not match",
+                                                    })}
+                                                    onChange={(e) => {
+                                                        setValue("confirmPassword", e.target.value);
+                                                        if (getValues("password") === e.target.value) {
+                                                            setPasswordsMatch(true);
+                                                        } else {
+                                                            setPasswordsMatch(false);
+                                                        }
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>

@@ -287,7 +287,10 @@ const DashboardLayout = ({children}: DashboardLayoutProps) => {
                             >
                                 <Link href="/profile" passHref>
                                     <MenuItem onClick={handleClose}>
-                                        <Avatar/> Profile
+                                        <Avatar
+                                            src={data?.user?.image ? data?.user?.image : undefined}
+                                            alt={data?.user?.name ? data?.user?.name : undefined}
+                                        /> Profile
                                     </MenuItem>
                                 </Link>
 
