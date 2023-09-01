@@ -302,7 +302,8 @@ export async function PATCH(req: Request) {
                     height: body.height !== "" ? body.height : user.height,
                     goal: body.goal !== "" ? body.goal : user.goal,
                     level: body.level !== "" ? body.level :  user.level,
-                    hashedPassword
+                    hashedPassword,
+                    isActive: body.isActive
                 }
             })
 

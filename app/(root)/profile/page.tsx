@@ -346,80 +346,81 @@ export default function ProfilePage() {
                                             <TableCell>
                                                 Password
                                             </TableCell>
-                                            <TableCell>
-                                                <TextField
-                                                    size={'small'}
-                                                    type="password"
-                                                    fullWidth
-                                                    id="password"
-                                                    label="Enter Password"
-                                                    autoFocus
-                                                    error={!!errors?.password?.message}
-                                                    helperText={
-                                                        errors?.password && typeof errors?.password?.message === "string"
-                                                            ? errors?.password?.message
-                                                            : null
-                                                    }
-                                                    {...register("password", {
-                                                        minLength: {
-                                                            value: 8,
-                                                            message: "Password must have at least 8 characters",
-                                                        },
-                                                        maxLength: {
-                                                            value: 20,
-                                                            message: "Password must have at most 20 characters",
-                                                        },
-                                                        pattern: {
-                                                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/,
-                                                            message:
-                                                                "Password must contain at least one uppercase letter, one lowercase letter and one number",
-                                                        },
-                                                    })}
-                                                    onChange={(e) => {
-                                                        setValue("password", e.target.value);
-                                                        if (getValues("confirmPassword") === e.target.value) {
-                                                            setPasswordsMatch(true);
-                                                        } else {
-                                                            setPasswordsMatch(false);
-                                                        }
-                                                    }}
-                                                />
-                                            </TableCell>
+                                            <TableCell>Disabled for demo</TableCell>
+                                            {/*    <TextField*/}
+                                            {/*        size={'small'}*/}
+                                            {/*        type="password"*/}
+                                            {/*        fullWidth*/}
+                                            {/*        id="password"*/}
+                                            {/*        label="Enter Password"*/}
+                                            {/*        autoFocus*/}
+                                            {/*        error={!!errors?.password?.message}*/}
+                                            {/*        helperText={*/}
+                                            {/*            errors?.password && typeof errors?.password?.message === "string"*/}
+                                            {/*                ? errors?.password?.message*/}
+                                            {/*                : null*/}
+                                            {/*        }*/}
+                                            {/*        {...register("password", {*/}
+                                            {/*            minLength: {*/}
+                                            {/*                value: 8,*/}
+                                            {/*                message: "Password must have at least 8 characters",*/}
+                                            {/*            },*/}
+                                            {/*            maxLength: {*/}
+                                            {/*                value: 20,*/}
+                                            {/*                message: "Password must have at most 20 characters",*/}
+                                            {/*            },*/}
+                                            {/*            pattern: {*/}
+                                            {/*                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$/,*/}
+                                            {/*                message:*/}
+                                            {/*                    "Password must contain at least one uppercase letter, one lowercase letter and one number",*/}
+                                            {/*            },*/}
+                                            {/*        })}*/}
+                                            {/*        onChange={(e) => {*/}
+                                            {/*            setValue("password", e.target.value);*/}
+                                            {/*            if (getValues("confirmPassword") === e.target.value) {*/}
+                                            {/*                setPasswordsMatch(true);*/}
+                                            {/*            } else {*/}
+                                            {/*                setPasswordsMatch(false);*/}
+                                            {/*            }*/}
+                                            {/*        }}*/}
+                                            {/*    />*/}
+                                            {/*</TableCell>*/}
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>
                                                 Confirm Password
                                             </TableCell>
-                                            <TableCell>
-                                                <TextField
-                                                    size={'small'}
-                                                    type="password"
-                                                    fullWidth
-                                                    id="confirm-password"
-                                                    label="Re-enter Password"
-                                                    autoFocus
-                                                    error={!!errors?.confirmPassword?.message || !passwordsMatch}
-                                                    helperText={
-                                                        !passwordsMatch
-                                                            ? "Passwords do not match"
-                                                            : (errors?.confirmPassword && typeof errors?.confirmPassword?.message === "string"
-                                                                ? errors?.confirmPassword?.message
-                                                                : null)
-                                                    }
-                                                    {...register("confirmPassword", {
-                                                        validate: (value) =>
-                                                            value === getValues("password") || "Passwords do not match",
-                                                    })}
-                                                    onChange={(e) => {
-                                                        setValue("confirmPassword", e.target.value);
-                                                        if (getValues("password") === e.target.value) {
-                                                            setPasswordsMatch(true);
-                                                        } else {
-                                                            setPasswordsMatch(false);
-                                                        }
-                                                    }}
-                                                />
-                                            </TableCell>
+                                            <TableCell>Disabled for demo</TableCell>
+                                            {/*<TableCell>*/}
+                                            {/*    <TextField*/}
+                                            {/*        size={'small'}*/}
+                                            {/*        type="password"*/}
+                                            {/*        fullWidth*/}
+                                            {/*        id="confirm-password"*/}
+                                            {/*        label="Re-enter Password"*/}
+                                            {/*        autoFocus*/}
+                                            {/*        error={!!errors?.confirmPassword?.message || !passwordsMatch}*/}
+                                            {/*        helperText={*/}
+                                            {/*            !passwordsMatch*/}
+                                            {/*                ? "Passwords do not match"*/}
+                                            {/*                : (errors?.confirmPassword && typeof errors?.confirmPassword?.message === "string"*/}
+                                            {/*                    ? errors?.confirmPassword?.message*/}
+                                            {/*                    : null)*/}
+                                            {/*        }*/}
+                                            {/*        {...register("confirmPassword", {*/}
+                                            {/*            validate: (value) =>*/}
+                                            {/*                value === getValues("password") || "Passwords do not match",*/}
+                                            {/*        })}*/}
+                                            {/*        onChange={(e) => {*/}
+                                            {/*            setValue("confirmPassword", e.target.value);*/}
+                                            {/*            if (getValues("password") === e.target.value) {*/}
+                                            {/*                setPasswordsMatch(true);*/}
+                                            {/*            } else {*/}
+                                            {/*                setPasswordsMatch(false);*/}
+                                            {/*            }*/}
+                                            {/*        }}*/}
+                                            {/*    />*/}
+                                            {/*</TableCell>*/}
                                         </TableRow>
                                     </TableBody>
                                 </Table>
