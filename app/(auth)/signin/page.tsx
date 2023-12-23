@@ -8,7 +8,7 @@ import {redirect, useRouter} from "next/navigation";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
-import {Avatar, Button, CssBaseline, TextField, Box, Typography, Container} from '@mui/material/';
+import {Grid, Link, Avatar, Button, CssBaseline, TextField, Box, Typography, Container} from '@mui/material/';
 
 const defaultTheme = createTheme();
 
@@ -85,7 +85,7 @@ export default function SignInPage() {
                     <Box component="form" noValidate onSubmit={handleSubmit(handleSignIn)} sx={{mt: 1}}>
                         <TextField
                             margin="normal"
-                            value={testUser.email}
+                            // value={testUser.email}
                             required
                             fullWidth
                             id="email"
@@ -105,7 +105,7 @@ export default function SignInPage() {
 
                         <TextField
                             margin="normal"
-                            value={testUser.password}
+                            // value={testUser.password}
                             required
                             fullWidth
                             label="Password"
@@ -134,53 +134,60 @@ export default function SignInPage() {
                     </Box>
                 </Box>
 
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 1,
-                    flexDirection: {
-                        xs: "column",
-                        sm: "row"
-                    }
-                }}>
-                    <Button
-                        onClick={() => {
-                            setTestUser({
-                                email: "rjabid36@gmail.com",
-                                password: '123456Abid'
-                            })
-                        }}
-                        size={'small'}
-                        variant="contained"
-                    >
-                        Role as Admin
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            setTestUser({
-                                email: "test1@gmail.com",
-                                password: '123456Abid'
-                            })
-                        }}
-                        size={'small'}
-                        variant="contained"
-                    >
-                        Role as Trainer
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            setTestUser({
-                                email: "test2@gmail.com",
-                                password: '123456Abid'
-                            })
-                        }}
-                        size={'small'}
-                        variant="contained"
-                    >
-                        Role as User
-                    </Button>
-                </Box>
+                {/*<Box sx={{*/}
+                {/*    display: "flex",*/}
+                {/*    justifyContent: "center",*/}
+                {/*    alignItems: "center",*/}
+                {/*    gap: 1,*/}
+                {/*    flexDirection: {*/}
+                {/*        xs: "column",*/}
+                {/*        sm: "row"*/}
+                {/*    }*/}
+                {/*}}>*/}
+                {/*    <Button*/}
+                {/*        onClick={() => {*/}
+                {/*            setTestUser({*/}
+                {/*                email: "rjabid36@gmail.com",*/}
+                {/*                password: '123456Abid'*/}
+                {/*            })*/}
+                {/*        }}*/}
+                {/*        size={'small'}*/}
+                {/*        variant="contained"*/}
+                {/*    >*/}
+                {/*        Role as Admin*/}
+                {/*    </Button>*/}
+                {/*    <Button*/}
+                {/*        onClick={() => {*/}
+                {/*            setTestUser({*/}
+                {/*                email: "test1@gmail.com",*/}
+                {/*                password: '123456Abid'*/}
+                {/*            })*/}
+                {/*        }}*/}
+                {/*        size={'small'}*/}
+                {/*        variant="contained"*/}
+                {/*    >*/}
+                {/*        Role as Trainer*/}
+                {/*    </Button>*/}
+                {/*    <Button*/}
+                {/*        onClick={() => {*/}
+                {/*            setTestUser({*/}
+                {/*                email: "test2@gmail.com",*/}
+                {/*                password: '123456Abid'*/}
+                {/*            })*/}
+                {/*        }}*/}
+                {/*        size={'small'}*/}
+                {/*        variant="contained"*/}
+                {/*    >*/}
+                {/*        Role as User*/}
+                {/*    </Button>*/}
+                {/*</Box>*/}
+                <Grid container>
+                    <Grid item xs ml={1}>
+                        <Link href="/forgot-password" variant="body2">
+                            Forgot password?
+                        </Link>
+                    </Grid>
+                </Grid>
             </Container>
         </ThemeProvider>
     );
