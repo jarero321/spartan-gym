@@ -23,6 +23,7 @@ export default function SignUpPage() {
       password: "",
       image: "",
       gender: "",
+      role: "admin"
     },
   });
 
@@ -32,7 +33,7 @@ export default function SignUpPage() {
     data.image = imageBase64;
 
     const res = await axios.post("/api/auth/register", data);
-
+    console.log(res, data)
     if (res.status === 200) {
       return router.push("/signin");
     }

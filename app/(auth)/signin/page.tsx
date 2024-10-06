@@ -60,6 +60,7 @@ export default function SignInPage() {
         }
 
         if (callback?.error) {
+          console.log(callback.error)
           toast.error(callback.error);
         }
       })
@@ -102,7 +103,6 @@ export default function SignInPage() {
           >
             <TextField
               margin="normal"
-              value={testUser.email}
               required
               fullWidth
               id="email"
@@ -122,7 +122,6 @@ export default function SignInPage() {
 
             <TextField
               margin="normal"
-              value={testUser.password}
               required
               fullWidth
               label="Password"
@@ -174,8 +173,8 @@ export default function SignInPage() {
           <Button
             onClick={() => {
               setTestUser({
-                email: "rjabid36@gmail.com",
-                password: "123456Abid",
+                email: "pymeshub@gmail.com",
+                password: "Carlitos30",
               });
             }}
             size={"small"}

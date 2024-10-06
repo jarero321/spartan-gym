@@ -62,7 +62,7 @@ export const options: NextAuthOptions = {
         },
       };
     },
-    jwt: ({ token, user, trigger,session }) => {
+    jwt: ({ token, user, trigger, session }) => {
       if (user) {
         const u = user as unknown as User;
         return {
@@ -76,8 +76,7 @@ export const options: NextAuthOptions = {
         return {
           ...token,
           ...session?.user,
-          picture: session.user.image,
-        }
+        };
       }
 
       return token;
@@ -87,5 +86,4 @@ export const options: NextAuthOptions = {
     signIn: "/signin",
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
 };

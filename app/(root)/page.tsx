@@ -9,7 +9,8 @@ export const revalidate = 0;
 
 export default async function DashboardPage() {
 
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
+  console.log(user);
 
     if(!user) {
         return <ClientOnly>
